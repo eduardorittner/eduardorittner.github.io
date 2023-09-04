@@ -7,6 +7,11 @@ h1 {
     display: flex;
 }
 
+nav {
+    display: flex;
+    height: 10%;
+}
+
 nav a {
     margin-left: auto;
     margin-right: auto;
