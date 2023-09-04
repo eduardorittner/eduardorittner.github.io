@@ -1,5 +1,7 @@
 body {
     background-color: beige;
+    max-width: 90ch;
+    margin: auto;
 }
 
 header {
