@@ -9,10 +9,11 @@ header {
 .title {
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 ul {
+    list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
