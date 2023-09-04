@@ -2,18 +2,16 @@ body {
     background-color: beige;
 }
 
-.title {
+h1 {
     text-align: center;
-    display: flex;
-}
-
-nav {
     display: flex;
 }
 
 nav a {
     margin-left: auto;
     margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 a:hover {
