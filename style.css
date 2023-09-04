@@ -3,7 +3,16 @@ body {
 }
 
 h1 {
-    position: relative;
+    display: flex;
+}
+
+nav {
+    display: flex;
+}
+
+nav a {
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
 }
 
