@@ -1,0 +1,16 @@
+body {
+    background-color: beige;
+}
+
+h1 {
+    position: relative;
+    display: flex;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:visited {
+    color: red;
+}
