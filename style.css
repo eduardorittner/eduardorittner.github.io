@@ -2,7 +2,8 @@ body {
     background-color: beige;
 }
 
-h1 {
+.title {
+    text-align: center;
     display: flex;
 }
 
