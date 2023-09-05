@@ -2,6 +2,7 @@ body {
     background-color: beige;
     max-width: 90ch;
     margin: auto;
+    font-size: 1.8rem;
 }
 
 header {
@@ -41,6 +42,7 @@ li a:hover {
 }
 
 p {
+    text-align: justify;
     text-justify: inter-word;
 }
 
