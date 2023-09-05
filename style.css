@@ -39,3 +39,12 @@ li a:hover {
     text-decoration: none;
     background-color: #111;
 }
+
+p {
+    text-justify: inter-word;
+}
+
+footer {
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
