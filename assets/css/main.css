@@ -41,7 +41,6 @@ html {
 
 body {
     margin: 0;
-    text-justify: true;
     font-size: 18px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -62,6 +61,8 @@ menu,
 nav,
 section {
     display: block;
+    /* manual change */
+    text-align: justify;
 }
 
 .container {
