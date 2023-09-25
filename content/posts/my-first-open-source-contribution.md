@@ -1,7 +1,7 @@
 +++
 title = 'My First Open Source Contribution'
 date = 2023-09-21T14:47:56-03:00
-draft = true
+draft = false
 +++
 
 Yesterday my first ever PR to an open source project was accepted and [commited](https://github.com/neovim/neovim/commit/b6ef938c663bc930a42bf1b15d7e97efcd4904b6), however, my contribution had (almost) nothing to do with code, but instead documentation, and I'm perfectly fine with that, here's why.
