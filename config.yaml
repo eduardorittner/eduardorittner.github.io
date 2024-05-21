@@ -39,7 +39,7 @@ params:
   tocWordCount: 300 # ...when a post is longer than 300 words
   copyCodeButton: true # true by default
   rssAsSocialIcon: true
-  mathjax: false # https://www.mathjax.org/
+  mathjax: true # https://www.mathjax.org/
   # utteranc.es support
   utterancesRepo: ""  # mandatory
   utterancesTheme: "" # optional
