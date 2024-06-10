@@ -9,9 +9,9 @@ enableRobotsTXT: true
 
 menu:
   main:
-  - identifier: Home
-    name: Home
-    title: Home
+  - identifier: Posts
+    name: Posts
+    title: Posts
     url: /posts/
     weight: 0
 
@@ -95,6 +95,3 @@ languages:
     languageCode: pt-BR
     languageName: Português do Brasil
     weight: 2
-
-
-
