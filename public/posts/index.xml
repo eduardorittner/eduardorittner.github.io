@@ -1,163 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Eduardo&#39;s TIL</title>
+    <title>Posts on Eduardo&#39;s Blog</title>
     <link>//localhost:1313/posts/</link>
-    <description>Eduardo&#39;s TIL (Posts)</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <description>Recent content in Posts on Eduardo&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
     <lastBuildDate>Mon, 20 May 2024 00:01:33 +0000</lastBuildDate>
-    
     <atom:link href="//localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
     <item>
       <title>How to solve any dynamic programming problem</title>
       <link>//localhost:1313/posts/dynamic-programming/</link>
       <pubDate>Mon, 20 May 2024 00:01:33 +0000</pubDate>
-      
       <guid>//localhost:1313/posts/dynamic-programming/</guid>
-      <description>&lt;p&gt;Dynamic programming is a scary name, but once you understand their general structure of these problems, they become much easier to solve. But first, what is dynamic programming? Dynamic programming is the discipline of solving combinatorial optimization problems as efficiently as possible, without having to calculate every possible solution. In technical terms, an optimal solution is any solution which maximizes (or minimizes) the target function (what we want to optmize).
-There is a 3 step process to solving any DP problem:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Define the structure of an optimal solution&lt;/li&gt;
-&lt;li&gt;Define the value of optimal solutions to smaller subproblems (recursively)&lt;/li&gt;
-&lt;li&gt;Compute the value of the optimal solution starting from the smallest possible subproblems.
-Let&amp;rsquo;s go through these one by one taking as an example the Backpack problem: Let I = {1, 2, &amp;hellip;, n} be a collection of items, where each item i has a value vi
-$$v_{1}$$&lt;/li&gt;
-&lt;/ol&gt;
-</description>
+      <description>Dynamic programming is a scary name, but once you understand their general structure of these problems, they become much easier to solve. But first, what is dynamic programming? Dynamic programming is the discipline of solving combinatorial optimization problems as efficiently as possible, without having to calculate every possible solution. In technical terms, an optimal solution is any solution which maximizes (or minimizes) the target function (what we want to optmize). There is a 3 step process to solving any DP problem:</description>
     </item>
-    
     <item>
       <title>Reading C Source Code: SDS</title>
       <link>//localhost:1313/posts/sds-source-code/</link>
       <pubDate>Mon, 26 Feb 2024 10:48:46 +0000</pubDate>
-      
       <guid>//localhost:1313/posts/sds-source-code/</guid>
-      <description>&lt;p&gt;Reading source code can be a great way to learn from those who have more experience, as well as see how the projects are structured, how functions are written, etc. So today we are going to be diving in the sds source code. Sds stands for simple dynamic strings, and it&amp;rsquo;s a three file library for dealing with dynamic strings in c, most notably, it&amp;rsquo;s used inside Redis for everything pertaining to strings.&lt;/p&gt;
-&lt;h1 id=&#34;strings-in-c&#34; &gt;Strings in c
-&lt;span&gt;
-    &lt;a href=&#34;#strings-in-c&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h1&gt;&lt;p&gt;For starters, let&amp;rsquo;s first see how strings work in c, and why a custom library is deemed necessary when working with them. Strings in c are nothing more than arrays of chars, terminated by a null character &amp;lsquo;\0&amp;rsquo;. One obvious consequence is that, to know the length of a string you must traverse it in full everytime. Another not so obvious consequence (but arguably more important) is that many c functions in the standard library expect the null terminator, and that can lead to some simple bugs (at best) or severe security vulnerabilities (at worst).&lt;/p&gt;
-&lt;h1 id=&#34;simple-dynamic-strings&#34; &gt;Simple dynamic strings
-&lt;span&gt;
-    &lt;a href=&#34;#simple-dynamic-strings&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h1&gt;&lt;p&gt;Sds is a library intended to replace the c builtin strings entirely, while being mostly compatible, so you can pass an sds string to any c function that expects a char*. How they work is that the header (containing useful information such as memory allocated, length of string, etc.) is stored directly before the string array. That way you can pass around a char* to sds functions, and if the want to get the string&amp;rsquo;s length, the just decrement the pointer and get the information. This also means that you can pass the char* to any c function expecting a regular string, since sds strings are also null terminated.&lt;/p&gt;
-&lt;h1 id=&#34;implementation&#34; &gt;Implementation
-&lt;span&gt;
-    &lt;a href=&#34;#implementation&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h1&gt;&lt;p&gt;Now let&amp;rsquo;s look at some [https://github.com/antirez/sds](source code)! First, the header files:&lt;/p&gt;
-&lt;h2 id=&#34;sdsalloch&#34; &gt;sdsalloc.h
-&lt;span&gt;
-    &lt;a href=&#34;#sdsalloch&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h2&gt;&lt;p&gt;This is a simple file for defining the allocator to be used for sds strings, it makes it trivially easy to switch from malloc to jmalloc, for example, or any other memory allocator. Another important point is that by using s_malloc and friends, a codebase can use 2 different allocators, one for sds strings, and any other for the rest of the code.&lt;/p&gt;
-&lt;h2 id=&#34;sdsh&#34; &gt;sds.h
-&lt;span&gt;
-    &lt;a href=&#34;#sdsh&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h2&gt;&lt;p&gt;This file contains the definitions of the header structs where the length and allocated memory are stored. There are 5 header types, each one able to store a certain number of bits of length:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;5 bits&lt;/li&gt;
-&lt;li&gt;1 byte&lt;/li&gt;
-&lt;li&gt;2 bytes&lt;/li&gt;
-&lt;li&gt;4 bytes&lt;/li&gt;
-&lt;li&gt;8 bytes
-An important thing to note is that they are defined with &lt;code&gt;__attribute__((__packed__))&lt;/code&gt;, which means that the struct will not have any padding inside the struct. In C, structs receive the same alignment as the member with highest alignment inside it, so for example, the following struct&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct thing {
-    int32_t length;
-    int32_t alloc;
-    char c;
-};
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;will have sizeof == 12, not 9, because the type int32_t is 4 byte alligned, then the struct will receive 3 unused bytes of padding to make it 4 byte aligned as well. The attribute packed is a way to tell the compiler to not insert any padding and not align the struct to its highest alignment member.
-Another thing to note about the header is that all of them contain an unsigned char for flags, this is necessary to be able to distinguish between different types of headers, since different headers have different sizes. Therefore, to find the type of header of an sds string, you decrement its char*, obtain the header size from that, and then decrement the appropriate amount to access the header information.&lt;/p&gt;
-&lt;p&gt;Aside from the header struct declarations and a few convenience macros, there are 6 function implementations, all of them &lt;code&gt;static inline&lt;/code&gt;. I&amp;rsquo;m not exactly sure what that does at the compiler level, but I think it&amp;rsquo;s a way to force these functions to be inlined wherever they are called, as opposed to it being a &amp;ldquo;suggestion&amp;rdquo; like the &lt;code&gt;inline&lt;/code&gt; keyword is.
-These 6 functions are the only ones that deal directly with the header information, all other functions in sds.c deal with the string content in the sds strings, and whenever they need something from the header they call one of the functions from sds.h.&lt;/p&gt;
-&lt;h2 id=&#34;sdsc&#34; &gt;sds.c
-&lt;span&gt;
-    &lt;a href=&#34;#sdsc&#34;&gt;
-        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
-    &lt;/a&gt;
-&lt;/span&gt;
-&lt;/h2&gt;&lt;p&gt;In this file are located most of the string functions one could possibly need, including creating, modiyfing, duplicating, formatting and destroying sds strings. Most (if not all) of the functions defined in &lt;code&gt;&amp;lt;string.h&amp;gt;&lt;/code&gt; have an equivalent implementation in this file.&lt;/p&gt;
-</description>
+      <description>Reading source code can be a great way to learn from those who have more experience, as well as see how the projects are structured, how functions are written, etc. So today we are going to be diving in the sds source code. Sds stands for simple dynamic strings, and it&amp;rsquo;s a three file library for dealing with dynamic strings in c, most notably, it&amp;rsquo;s used inside Redis for everything pertaining to strings.</description>
     </item>
-    
     <item>
       <title>My First Open Source Contribution</title>
       <link>//localhost:1313/posts/my-first-open-source-contribution/</link>
       <pubDate>Thu, 21 Sep 2023 14:47:56 -0300</pubDate>
-      
       <guid>//localhost:1313/posts/my-first-open-source-contribution/</guid>
-      <description>&lt;p&gt;Yesterday my first ever PR to an open source project was accepted and &lt;a href=&#34;https://github.com/neovim/neovim/commit/b6ef938c663bc930a42bf1b15d7e97efcd4904b6&#34;&gt;commited&lt;/a&gt;, however, my contribution had (almost) nothing to do with code, but instead documentation, and I&amp;rsquo;m perfectly fine with that, here&amp;rsquo;s why.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I&amp;rsquo;ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).&lt;/p&gt;
-&lt;p&gt;The first semester&amp;rsquo;s course was with python and focused on getting accustomed to the logic of programming: loops, variables, conditional statements, arrays, the list goes on. After that I had an algorithms and data structures course in C, which I thoroughly, enjoyed both the language and the assignments. My third semester was in Java where we learnt about OOP, which wasn&amp;rsquo;t exactly my favorite, don&amp;rsquo;t get me wrong, some of OOP&amp;rsquo;s principles are good principles that I try to follow, but I wouldn&amp;rsquo;t classify Java as a &amp;ldquo;fun&amp;rdquo; language to use. And now I&amp;rsquo;m currently learning assembly language (Risc-V) and the basics of computer architecture.&lt;/p&gt;
-&lt;p&gt;All that to say that I don&amp;rsquo;t have a lot of experience with real world software, of course I&amp;rsquo;ve completed a ton of assignements, and they&amp;rsquo;re mostly a joy to work on, but most of them are pretty basic and seem to be pretty far away from all the complexity that a real app (or even cli) has to handle in order to work well. So I&amp;rsquo;ve always had this interest in seeing how the things and apps I use everyday really trully work and how they choose to handle all the complexities and all the structures they rely on to do so.&lt;/p&gt;
-&lt;p&gt;Coupled with the desire to contribute to OSS that almost every developer and you get quite a lot of motivation. The only thing that was missing for some months was a project to which contribute, I wanted to work on something that I personally used and relied on, and was written in C. Most apps nowadays aren&amp;rsquo;t written in C, and those that are are quite complex, like the linux kernel (so scary!) and whatnot.&lt;/p&gt;
-&lt;p&gt;I had my lucky break when I found out that Neovim, the editor I&amp;rsquo;ve been using for almost a year, was written in C. This, along with my natural interest of text editors in general led me to want to contribute to neovim. After having read the contributing guidelines, cloned the repo, compiled it and messed around for a few days with the source code, I went looking for issues in github to fix. I regularly checked up on them every day, but to no avail. After two weeks or so, I finally found a task I knew was I was capable of doing: updating the docs!.&lt;/p&gt;
-&lt;p&gt;It may sound quite silly but I was genuinely excited, it was just a case of adding the default values of other XDG_ENV_VARIABLES, such as XDG_CACHE_DIR to the documentation. To do that I just had to look into the actual code and find their definition, add that to the corresponding entry in starting.txt and issue a pull request.&lt;/p&gt;
-&lt;p&gt;I had some questions which I expressed on github (someone even complimented them!), and most were specifically regarding windows, which didn&amp;rsquo;t seem to have XDG_CONFIG_DIRS and XDG_DATA_DIRS, and the people there were super nice and understanding. Having addressed them and a few formatting mistakes, my PR was accepted and merged!.&lt;/p&gt;
-&lt;p&gt;All of this to say that I&amp;rsquo;m not ashamed that my first contribution to neovim was on documentation. Contribution to open source involves a lot of things other than just code, and having a simple change that did not affect the inner workings of neovim allowed me to focus on learning the whole process of making a PR, all the git stuff you have to do, looking at someone else&amp;rsquo;s source code, etc. And I&amp;rsquo;m happy I did it.&lt;/p&gt;
-&lt;p&gt;Now the next step of course is to contribute to the source code, and I will bring updates here whenever that happens.&lt;/p&gt;
-</description>
+      <description>Yesterday my first ever PR to an open source project was accepted and commited, however, my contribution had (almost) nothing to do with code, but instead documentation, and I&amp;rsquo;m perfectly fine with that, here&amp;rsquo;s why.&#xA;I&amp;rsquo;m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I&amp;rsquo;ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).</description>
     </item>
-    
     <item>
       <title>TIL How To Setup Multiple Git Accounts</title>
       <link>//localhost:1313/posts/setup-multiple-git-accounts/</link>
       <pubDate>Mon, 11 Sep 2023 20:15:41 -0300</pubDate>
-      
       <guid>//localhost:1313/posts/setup-multiple-git-accounts/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;m part of a junior company at my university where we design websites and web apps for small businesses. To keep everything neat and tidy, everyone gets an email account associated to the company (just like a company email minus the part where I get paid) to use all our tools such as figma for prototyping, google drive for file and document storage, and most importantly github for developing and maintaining projects. Configuring 2 accounts for github on the same machine is not some novel or complicated concept, and this post is just an amalgamation of what I&amp;rsquo;ve found online, to make it easier whenever I switch distros or have to rebuild my environment from scratch for any reason. Note that all of these steps are for linux based distros, and some of them might be different on Windows or MacOs.
-So before we get to it, let&amp;rsquo;s recap what I want this config to do:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Run all git commands without any authentication prompt&lt;/li&gt;
-&lt;li&gt;Automatically determine which github account to use&lt;/li&gt;
-&lt;li&gt;Allow for easy tweaks (such as adding new accounts)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;For authentication we are going to be using SSH, since it&amp;rsquo;s easy to set up and you only have to do it once per machine and never worry about it again. So for each account we have to generate a new ssh key, add it to the current agent and add it to the list of trusted keys in the github website. For generation we are going to be using the ssh-keygen command (which as far as I&amp;rsquo;m aware is available by default in the vast majority of operating systems, just be careful of syntax differences) as follows:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ssh-keygen -t rsa -C &amp;#34;your-email@domain.com&amp;#34; -f &amp;#34;your-github-username&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Ssh-keygen generates a new ssh key, where the t flag specifies which key type to build, the -C flag adds a comment to the key (just as a way to know which email it&amp;rsquo;s linked to) and the -f flag specifies the file name to save the key in the ~/.ssh directory. Upon entering the above command, it will prompt you for a passphrase, you can either chose to enter one or just leave it empty, my choice was to leave it empty just because it seemed like less of a hassle. For those of you unaware, rsa encryption involves 2 sets of keys, a private and a public key (denoted by the &amp;ldquo;.pub&amp;rdquo; terminator), the private key is only stored locally and the public key is given to whomever we want to ssh to, in this case, github. So having generated our keys, we must add our new private key identity to the ssh agent&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ssh-add -K ~/.ssh/key-name
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To be honest I&amp;rsquo;m not really sure what the -K flag does, I&amp;rsquo;ve tried looking into it and it has something to do with FIDO authentication but I&amp;rsquo;m not sure if it&amp;rsquo;s necessary, just an extra precaution, or what the deal is. Anyways, having generated our keys and added them to the ssh-agent, we must now tell github to accept it as a valid ssh key. For that you simply go into Settings, SSG and GPG keys and click on new SSH key and paste your public ssh key (that is, the file &amp;ldquo;key-name.pub&amp;rdquo;) there, and voila.
-You must follow these steps for each and every account you wish to configure, generating a new key for each one and adding it to the ssh-agent and corresponding github account valid keys. After all that, we will now tell git how to know which identity to use, and for that we&amp;rsquo;re going to modify (or create) the ~/.gitconfig file. As far as I&amp;rsquo;m aware there are several ways to do it, but the one that worked best for me was to have one specific directory for each github account, that way git knows which identity to use based on where the repo I&amp;rsquo;m currently working on is located. Another particular decision was to have a separate .gitconfig file in each of these parent directories, so that I can change configs for each account separately.
-My .gitconfig file is pretty barebones, and looks something like this:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[core]
-editor = nvim
-
-[includeIf &amp;#34;gitdir:~/personal/&amp;#34;]
-path = ~/personal/.gitconfig
-
-[includeIf &amp;#34;gitdir:~/work/&amp;#34;]
-path = ~/work/.gitconfig
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Up top are all the global settings you want to use, in my case that&amp;rsquo;s just setting the default editor, and after that comes the local configurations for each account. IncludeIf does just that, include the configuration that is on path if the current git directory is inside the specified folder (note that a git repo doesn&amp;rsquo;t have to be directly on the specified directory to work, it can be nested inside however many folders). Having done that we must now create the specified config files for each account:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[user]
-email = email-name@domain.com
-name = name
-
-[github]
-user = &amp;#34;user-name&amp;#34;
-
-[core]
-sshCommand = &amp;#34;ssh -i ~/.ssh/key-name&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;All this does is specify the current user, name and email, and which ssh key to use for the ssh authentication, and that&amp;rsquo;s it. If you&amp;rsquo;d like to have settings specific to one account you&amp;rsquo;d place them in this file, however that&amp;rsquo;s not my case. And that&amp;rsquo;s it! you&amp;rsquo;re all ready to go, just note that whenever you&amp;rsquo;re cloning a repo now you should use the ssh option provided in the code button, rather than copying the URL directly, for example (it sometimes works but just for consistency, I&amp;rsquo;ve gotten used to just using the ssh option).&lt;/p&gt;
-</description>
+      <description>I&amp;rsquo;m part of a junior company at my university where we design websites and web apps for small businesses. To keep everything neat and tidy, everyone gets an email account associated to the company (just like a company email minus the part where I get paid) to use all our tools such as figma for prototyping, google drive for file and document storage, and most importantly github for developing and maintaining projects.</description>
     </item>
-    
   </channel>
 </rss>

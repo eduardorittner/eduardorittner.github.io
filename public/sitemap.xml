@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <sitemap>
-    <loc>//localhost:1313/en/sitemap.xml</loc>
-    
-      <lastmod>2024-05-20T00:01:33+00:00</lastmod>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>//localhost:1313/pt/sitemap.xml</loc>
-    
-  </sitemap>
-  
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>//localhost:1313/</loc>
+    <lastmod>2024-06-10T14:52:45+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/ramblings/</loc>
+    <lastmod>2024-06-10T14:52:45+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/ramblings/hello/</loc>
+    <lastmod>2024-06-10T14:52:45+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/posts/dynamic-programming/</loc>
+    <lastmod>2024-05-20T00:01:33+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/posts/</loc>
+    <lastmod>2024-05-20T00:01:33+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/posts/sds-source-code/</loc>
+    <lastmod>2024-02-26T10:48:46+00:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/posts/my-first-open-source-contribution/</loc>
+    <lastmod>2023-09-21T14:47:56-03:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/posts/setup-multiple-git-accounts/</loc>
+    <lastmod>2023-09-11T20:15:41-03:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/notes/</loc>
+  </url><url>
+    <loc>//localhost:1313/categories/</loc>
+  </url><url>
+    <loc>//localhost:1313/tags/</loc>
+  </url>
+</urlset>

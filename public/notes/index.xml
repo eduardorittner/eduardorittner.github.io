@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eduardo&#39;s Blog</title>
+    <link>//localhost:1313/notes/</link>
+    <description>Recent content on Eduardo&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 10 Jun 2024 14:39:56 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C macros</title>
+      <link>//localhost:1313/notes/eita/</link>
+      <pubDate>Mon, 10 Jun 2024 14:39:56 +0000</pubDate>
+      <guid>//localhost:1313/notes/eita/</guid>
+      <description>A collection of useful or interesting c macros I&amp;rsquo;ve collected </description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eduardo&#39;s Blog</title>
+    <link>//localhost:1313/ramblings/</link>
+    <description>Recent content on Eduardo&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 10 Jun 2024 14:52:45 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/ramblings/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello, World!</title>
+      <link>//localhost:1313/ramblings/hello/</link>
+      <pubDate>Mon, 10 Jun 2024 14:52:45 +0000</pubDate>
+      <guid>//localhost:1313/ramblings/hello/</guid>
+      <description>This is my first rambling! These posts are meant to be informal, non-technical and low-quality short ramblings about me, my life, and what&amp;rsquo;s been on my mind lately.</description>
+    </item>
+  </channel>
+</rss>
