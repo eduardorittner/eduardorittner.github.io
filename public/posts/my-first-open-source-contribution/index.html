@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>My First Open Source Contribution - Eduardo&rsquo;s TIL</title>
+
+<meta name="description" content="Yesterday my first ever PR to an open source project was accepted and commited, however, my contribution had (almost) nothing to do with code, but instead documentation, and I&rsquo;m perfectly fine with that, here&rsquo;s why.
+I&rsquo;m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I&rsquo;ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="//localhost:1313/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="//localhost:1313/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+    
+
+    
+        <link rel="stylesheet" href="//localhost:1313/css/style.b5e238f9feb7988cb94f17d23637270078fc2cc19b235b3448650b52f9090fb9.css" integrity="sha256-teI4&#43;f63mIy5TxfSNjcnAHj8LMGbI1s0SGULUvkJD7k=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+    
+
+    
+        <script src="//localhost:1313/js/script.32e751300d2d69e2cb56a98d2c9d964d54a53a8fb7281ccdbd80f055c88e8d86.js" type="text/javascript" charset="utf-8" integrity="sha256-MudRMA0taeLLVqmNLJ2WTVSlOo&#43;3KBzNvYDwVciOjYY="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="//localhost:1313/posts/my-first-open-source-contribution/">
+  <meta property="og:site_name" content="Eduardo&#39;s TIL">
+  <meta property="og:title" content="My First Open Source Contribution">
+  <meta property="og:description" content="Yesterday my first ever PR to an open source project was accepted and commited, however, my contribution had (almost) nothing to do with code, but instead documentation, and I’m perfectly fine with that, here’s why.
+I’m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I’ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-09-21T14:47:56-03:00">
+    <meta property="article:modified_time" content="2023-09-21T14:47:56-03:00">
+
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="My First Open Source Contribution">
+<meta name="twitter:description" content="Yesterday my first ever PR to an open source project was accepted and commited, however, my contribution had (almost) nothing to do with code, but instead documentation, and I&rsquo;m perfectly fine with that, here&rsquo;s why.
+I&rsquo;m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I&rsquo;ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).">
+
+
+
+    
+        <link rel="webmention" href="https://webmention.io/hugo-theme-anubis/webmention" />
+        
+            <link rel="pingback" href="https://webmention.io/hugo-theme-anubis/xmlrpc" />
+        
+    
+    
+        <link rel="webmention" href="https://yourdomain.com/webemntions/receive" />
+    
+
+
+
+
+
+
+
+
+    
+
+<script async defer data-website-id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" data-cache="false" data-do-not-track="true" src="https://abc.example.com/umami.js"></script>
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main">Skip to main content</a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <h1 class="site-title">
+    <a href="//localhost:1313/">Eduardo&#39;s TIL</a>
+</h1>
+    <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/eduardorittner" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        
+        
+        <li>
+            <a href="mailto:eduardorittnerc@gmail.com" title="Email" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="//localhost:1313/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="//localhost:1313/posts/" title="Home">Home</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">My First Open Source Contribution</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents"></nav>
+
+        <div class="content e-content">
+            <p>Yesterday my first ever PR to an open source project was accepted and <a href="https://github.com/neovim/neovim/commit/b6ef938c663bc930a42bf1b15d7e97efcd4904b6">commited</a>, however, my contribution had (almost) nothing to do with code, but instead documentation, and I&rsquo;m perfectly fine with that, here&rsquo;s why.</p>
+<p>I&rsquo;m relatively new to programming, in fact, my journey into coding started less than 2 years ago, when I got into university and started my undergrad in computer science and engineering. Since then I&rsquo;ve had basically one coding discipline per semester (the first 2 years are kind of slow since I have to take a lot of engineering disciplines such as physics (1 to 4), a lot of maths and just a bit of chemistry).</p>
+<p>The first semester&rsquo;s course was with python and focused on getting accustomed to the logic of programming: loops, variables, conditional statements, arrays, the list goes on. After that I had an algorithms and data structures course in C, which I thoroughly, enjoyed both the language and the assignments. My third semester was in Java where we learnt about OOP, which wasn&rsquo;t exactly my favorite, don&rsquo;t get me wrong, some of OOP&rsquo;s principles are good principles that I try to follow, but I wouldn&rsquo;t classify Java as a &ldquo;fun&rdquo; language to use. And now I&rsquo;m currently learning assembly language (Risc-V) and the basics of computer architecture.</p>
+<p>All that to say that I don&rsquo;t have a lot of experience with real world software, of course I&rsquo;ve completed a ton of assignements, and they&rsquo;re mostly a joy to work on, but most of them are pretty basic and seem to be pretty far away from all the complexity that a real app (or even cli) has to handle in order to work well. So I&rsquo;ve always had this interest in seeing how the things and apps I use everyday really trully work and how they choose to handle all the complexities and all the structures they rely on to do so.</p>
+<p>Coupled with the desire to contribute to OSS that almost every developer and you get quite a lot of motivation. The only thing that was missing for some months was a project to which contribute, I wanted to work on something that I personally used and relied on, and was written in C. Most apps nowadays aren&rsquo;t written in C, and those that are are quite complex, like the linux kernel (so scary!) and whatnot.</p>
+<p>I had my lucky break when I found out that Neovim, the editor I&rsquo;ve been using for almost a year, was written in C. This, along with my natural interest of text editors in general led me to want to contribute to neovim. After having read the contributing guidelines, cloned the repo, compiled it and messed around for a few days with the source code, I went looking for issues in github to fix. I regularly checked up on them every day, but to no avail. After two weeks or so, I finally found a task I knew was I was capable of doing: updating the docs!.</p>
+<p>It may sound quite silly but I was genuinely excited, it was just a case of adding the default values of other XDG_ENV_VARIABLES, such as XDG_CACHE_DIR to the documentation. To do that I just had to look into the actual code and find their definition, add that to the corresponding entry in starting.txt and issue a pull request.</p>
+<p>I had some questions which I expressed on github (someone even complimented them!), and most were specifically regarding windows, which didn&rsquo;t seem to have XDG_CONFIG_DIRS and XDG_DATA_DIRS, and the people there were super nice and understanding. Having addressed them and a few formatting mistakes, my PR was accepted and merged!.</p>
+<p>All of this to say that I&rsquo;m not ashamed that my first contribution to neovim was on documentation. Contribution to open source involves a lot of things other than just code, and having a simple change that did not affect the inner workings of neovim allowed me to focus on learning the whole process of making a PR, all the git stuff you have to do, looking at someone else&rsquo;s source code, etc. And I&rsquo;m happy I did it.</p>
+<p>Now the next step of course is to contribute to the source code, and I will bring updates here whenever that happens.</p>
+
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/posts/my-first-open-source-contribution/"><time datetime="2023-09-21">2023-09-21</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="//localhost:1313/posts/my-first-open-source-contribution/">//localhost:1313/posts/my-first-open-source-contribution/</a>
+    <a href="//localhost:1313/" class="p-name p-author post-hidden-author h-card" rel="me">Eduardo Rittner Coelho</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+        
+        
+    
+
+    
+        
+    
+    
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/sds-source-code/">Reading C Source Code: SDS</a>
+            
+        </div>
+        <div class="right pagination-item ">
+            
+                <a href="/posts/setup-multiple-git-accounts/">TIL How To Setup Multiple Git Accounts</a>
+            
+        </div>
+    </div>
+
+
+
+
+    
+
+    
+        
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="de"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+        <ul class="language-select">
+    
+    
+    
+        
+    
+
+    
+        
+            <li></li>
+        
+    
+        
+            <li><a href="//localhost:1313/pt/">Português do Brasil</a></li>
+        
+    
+</ul>
+
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© Eduardo Rittner Coelho, 2024<br>
+            Powered by <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>, theme <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
+
+    
+
+
+
+
+    <button class="theme-switcher">
+        Dark theme
+    </button>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "dark"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "Light theme" : "Dark theme"
+    }
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=//localhost:1313/ class="p-name u-url url fn" rel="me">Eduardo Rittner Coelho</a> 
+
+     
+        /
+        <a class="p-email u-email email" rel="me" href="mailto:eduardorittnerc@gmail.com">eduardorittnerc@gmail.com</a>
+    
+
+     
+        <img class="u-photo" src="/images/me.png" />
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>
