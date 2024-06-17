@@ -6,8 +6,15 @@
     <description>Recent content on Eduardo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 10 Jun 2024 14:52:45 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Jun 2024 21:50:23 +0000</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I&#39;m 20!</title>
+      <link>//localhost:1313/ramblings/2o/</link>
+      <pubDate>Sun, 16 Jun 2024 21:50:23 +0000</pubDate>
+      <guid>//localhost:1313/ramblings/2o/</guid>
+      <description>Basically what the title says, I&amp;rsquo;ve just turned 20 years old, and this is what&amp;rsquo;s on my mind. Stress runs in my family, and I am definetely guilty of worrying too much, too soon and too often about things. However, things have been looking up and I&amp;rsquo;ve found that lately I&amp;rsquo;ve gotten much better at not worrying unnecesseraly, and just having a good time even on weekdays, I hope that by the time I&amp;rsquo;m 21 I&amp;rsquo;ll have gotten even better at that.</description>
+    </item>
     <item>
       <title>Hello, World!</title>
       <link>//localhost:1313/ramblings/hello/</link>
