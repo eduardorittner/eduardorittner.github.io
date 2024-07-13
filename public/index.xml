@@ -6,8 +6,15 @@
     <description>Recent content on Eduardo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Jun 2024 21:50:23 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jul 2024 21:42:30 +0000</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Some Useful Commands</title>
+      <link>//localhost:1313/notes/useful-commands/</link>
+      <pubDate>Sat, 13 Jul 2024 21:42:30 +0000</pubDate>
+      <guid>//localhost:1313/notes/useful-commands/</guid>
+      <description>Here are some commands I don&amp;rsquo;t use all that often but still think are nice to remember just in case I need them:&#xA;watch -n [interval in seconds] [command] It runs the given command periodically (every 2 seconds by default) and prints the whole output to stdout.</description>
+    </item>
     <item>
       <title>I&#39;m 20!</title>
       <link>//localhost:1313/ramblings/2o/</link>
@@ -21,6 +28,13 @@
       <pubDate>Mon, 10 Jun 2024 14:52:45 +0000</pubDate>
       <guid>//localhost:1313/ramblings/hello/</guid>
       <description>This is my first rambling! These posts are meant to be informal, non-technical and low-quality short ramblings about me, my life, and what&amp;rsquo;s been on my mind lately.</description>
+    </item>
+    <item>
+      <title>C macros</title>
+      <link>//localhost:1313/notes/eita/</link>
+      <pubDate>Mon, 10 Jun 2024 14:39:56 +0000</pubDate>
+      <guid>//localhost:1313/notes/eita/</guid>
+      <description>A collection of useful or interesting c macros I&amp;rsquo;ve collected </description>
     </item>
     <item>
       <title>How to solve any dynamic programming problem</title>
@@ -49,13 +63,6 @@
       <pubDate>Mon, 11 Sep 2023 20:15:41 -0300</pubDate>
       <guid>//localhost:1313/posts/setup-multiple-git-accounts/</guid>
       <description>I&amp;rsquo;m part of a junior company at my university where we design websites and web apps for small businesses. To keep everything neat and tidy, everyone gets an email account associated to the company (just like a company email minus the part where I get paid) to use all our tools such as figma for prototyping, google drive for file and document storage, and most importantly github for developing and maintaining projects.</description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/notes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/notes/</guid>
-      <description>A collection of small tecnical notes </description>
     </item>
   </channel>
 </rss>
