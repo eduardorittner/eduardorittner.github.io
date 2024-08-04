@@ -8,14 +8,14 @@
 <link rel="shortcut icon" href="//localhost:1313/images/favicon.png" />
 <title>Notes on Git | Eduardo&#39;s Blog</title>
 <meta name="title" content="Notes on Git" />
-<meta name="description" content="Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset&rsquo;s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes." />
+<meta name="description" content="1. Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset&rsquo;s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes." />
 <meta name="keywords" content="" />
 
 
 <meta property="og:url" content="//localhost:1313/notes/git/">
   <meta property="og:site_name" content="Eduardo&#39;s Blog">
   <meta property="og:title" content="Notes on Git">
-  <meta property="og:description" content="Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
+  <meta property="og:description" content="1. Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="notes">
@@ -27,16 +27,16 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Notes on Git">
-  <meta name="twitter:description" content="Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
+  <meta name="twitter:description" content="1. Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
 
 
 
 
   <meta itemprop="name" content="Notes on Git">
-  <meta itemprop="description" content="Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
+  <meta itemprop="description" content="1. Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset’s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.">
   <meta itemprop="datePublished" content="2024-08-04T03:15:38+00:00">
   <meta itemprop="dateModified" content="2024-08-04T03:15:38+00:00">
-  <meta itemprop="wordCount" content="233">
+  <meta itemprop="wordCount" content="234">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
   <style>
@@ -239,7 +239,7 @@
 </script>
 
 <content>
-  <h1 id="merging-unrelated-repos">Merging unrelated repos</h1>
+  <h1 id="1-merging-unrelated-repos">1. Merging unrelated repos</h1>
 <p>You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset&rsquo;s <a href="https://www.youtube.com/watch?v=xUH-4y92jPg&amp;t=5104s&amp;ab_channel=JonGjengset">streams</a> where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.</p>
 <h2 id="how-to">How to:</h2>
 <ol>

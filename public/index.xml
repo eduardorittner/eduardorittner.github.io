@@ -6,14 +6,21 @@
     <description>Recent content on Eduardo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 04 Aug 2024 03:15:38 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2024 03:26:37 +0000</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jazz_daredevil</title>
+      <link>//localhost:1313/ramblings/jazz_daredevil/</link>
+      <pubDate>Sun, 04 Aug 2024 03:26:37 +0000</pubDate>
+      <guid>//localhost:1313/ramblings/jazz_daredevil/</guid>
+      <description>Introduction I was listening to Jon Benjamin&amp;rsquo;s &amp;ldquo;Well, I Should Have&amp;hellip;&amp;rdquo; the other day and got to thinking on why I like it so much. Every time I hear it I can&amp;rsquo;t stop laughing, and not laughing because I think it&amp;rsquo;s funny, I laugh because I think it&amp;rsquo;s fun, and there&amp;rsquo;s a big difference (I think).&#xA;Well, I Should Have&amp;hellip; If you haven&amp;rsquo;t heard of this album, it&amp;rsquo;s a jazz album starred by Jon Benjamin, an American voice actor, who just so happens to be a piano player that has no clue whatsoever how to play piano.</description>
+    </item>
     <item>
       <title>Notes on Git</title>
       <link>//localhost:1313/notes/git/</link>
       <pubDate>Sun, 04 Aug 2024 03:15:38 +0000</pubDate>
       <guid>//localhost:1313/notes/git/</guid>
-      <description>Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset&amp;rsquo;s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.</description>
+      <description>1. Merging unrelated repos You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset&amp;rsquo;s streams where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.</description>
     </item>
     <item>
       <title>Some Useful Commands</title>
