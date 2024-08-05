@@ -1,7 +1,7 @@
 +++
 title = 'Firefox shorcuts'
 date = 2024-08-05T00:31:44Z
-draft = true
+draft = false
 +++
 
 I really like firefox and have been using it since forever, but I barely know any keyboard shortcuts, and that makes me mad. *Especially* because I use neovim btw. So here are some useful shortcuts (taken from [^1]) in hopes that I actually start using them.
