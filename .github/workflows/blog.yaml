@@ -29,17 +29,16 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build website
     steps:
-      - name: 
-        - uses: actions/checkout@v2
-        - uses: actions-rs/toolchain@v1
-          with:
-            toolchain: stable
-        - run: |
-            cd builder
-            cargo run --no-default-features -- --from ../src --to ../output
-            mv ../output/* ../
+      - name: build html files
+        uses: actions/checkout@v2
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+        run: |
+          cd builder
+          cargo run --no-default-features -- --from ../src --to ../output
+          mv ../output/* ../
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
