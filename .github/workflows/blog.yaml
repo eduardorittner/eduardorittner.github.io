@@ -29,6 +29,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build website
     steps:
       # - name: build html files
       - id: build
