@@ -1,7 +1,7 @@
 # Homepage
 
 This is my personal site where I document things I find interesting, mostly in computer science and programming in general.
-I'm currently interested in programming language and compiler design, creative binary file visualizations and operating systems.
+I'm currently interested in programming language and compiler design and operating systems.
 
 #### You can check out:
 
