@@ -46,7 +46,6 @@ jobs:
     steps:
       - run: |
           ls
-          mv output/* ./
 
   # Deployment job
   deploy:
