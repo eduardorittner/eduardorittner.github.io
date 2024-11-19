@@ -31,12 +31,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Build website
     steps:
-      - name: Build html files
-        uses: actions/checkout@v2
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-        run: |
+      - name: 
+        - uses: actions/checkout@v2
+        - uses: actions-rs/toolchain@v1
+          with:
+            toolchain: stable
+        - run: |
             cd builder
             cargo run --no-default-features -- --from ../src --to ../output
             mv ../output/* ../
