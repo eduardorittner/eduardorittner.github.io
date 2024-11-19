@@ -27,22 +27,9 @@ defaults:
     shell: bash
 
 jobs:
-  compile:
-    runs-on: ubuntu-latest
-    name: Compile builder
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - run: |
-          cd builder
-          cargo build --release
-
   build:
     runs-on: ubuntu-latest
     name: Build website
-    needs: compile
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -58,6 +45,7 @@ jobs:
     needs: build
     steps:
       - run: |
+          ls
           mv output/* ./
 
   # Deployment job
