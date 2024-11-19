@@ -30,16 +30,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: build html files
-        id: build
-        uses: actions/checkout@v2
-        uses: actions-rs/toolchain@v1
+      # - name: build html files
+      - id: build
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
-        run: |
-          cd builder
-          cargo run --no-default-features -- --from ../src --to ../output
-          mv ../output/* ../
+        toolchain: stable
+      - run: |
+        cd builder
+        cargo run --no-default-features -- --from ../src --to ../output
+        mv ../output/* ../
       # - name: Upload static files as artifact
       #   id: deployment
       #   uses: actions/upload-pages-artifact@v3
