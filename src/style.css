@@ -1,0 +1,100 @@
+:root {
+	--col_fg: #ebdbb2;
+	--col_bg: #141818;
+	--col_lred: #e53231;
+	--col_lorange: #d8813a;
+	--col_lblue: #4093cb;
+	--col_lfg: #ead59d;
+}
+
+@font-face {
+	font-family: nrk;
+	src: url(assets/jetbrains_mono_regular.woff2);
+}
+* {
+	font-family: "nrk", "monospace";
+	font-variant-ligatures: none;
+}
+
+body {
+	color: var(--col_fg);
+	background-color: var(--col_bg);
+	font-size: 100%;
+	line-height: 24px;
+	margin: auto;
+	padding-left: 24px;
+	padding-right: 24px;
+	max-width: 86ch;
+}
+
+h1 {
+	color: var(--col_lred);
+	font-size: 150%;
+	text-align: center;
+	margin-bottom: 8px;
+	margin-top: 8px;
+} h2, h3, h4, h5, h6 {
+	color: var(--col_lorange);
+	font-size: 102%;
+	margin-bottom: 16px;
+}
+
+/* navbar */
+.navbar {
+	width: 100%;
+	min-width: 410px;
+	margin-top: 16px;
+	background-color: #202323;
+	overflow: hidden;
+}
+
+/* links inside the navigation bar */
+.navbar a {
+	float: left;
+	font-weight: bold;
+	margin-top: 26px;
+	text-align: center;
+	padding: 12px 18px;
+	font-size: 102%;
+	border: 1px solid var(--col_lorange);
+} .navbar a.active { /* active/current link */
+	color: var(--col_lred);
+} .navbar a:hover { /* links on hover */
+	background-color: #131616;
+}
+
+hr {
+	border-color: var(--col_fg);
+	margin-top: 22px;
+	margin-bottom: 22px;
+}
+
+p {
+	text-align: justify;
+}
+
+/* codeblocks */
+pre, code {
+	color: var(--col_lfg);
+} code, kbd {
+	background-color: #202020;
+	padding: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+} code {
+	border: 1px solid #282828;
+} kbd {
+	font-size: 85%;
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid #484848;
+} pre code {
+	overflow: auto;
+	padding: 12px;
+	display: block;
+} a > code {
+	color: var(--col_lblue);
+}
+
+
+
