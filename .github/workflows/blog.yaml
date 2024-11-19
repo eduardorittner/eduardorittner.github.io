@@ -51,6 +51,7 @@ jobs:
       - run: |
           cd builder
           cargo run -- --from ../src --to ../output
+          mv ../output/* ../
 
   # Deployment job
   deploy:
