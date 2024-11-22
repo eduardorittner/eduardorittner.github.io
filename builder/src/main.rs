@@ -132,12 +132,46 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
     (rest, metadata)
 }
 
+/// Expects strings of format YYYY-MM-DD
+fn date_to_string(date: &str) -> String {
+    let mut date = date.split('-');
+    let year = date.next().unwrap();
+    let month = match date.next().unwrap() {
+        "01" => "January",
+        "02" => "February",
+        "03" => "March",
+        "04" => "April",
+        "05" => "May",
+        "06" => "June",
+        "07" => "July",
+        "08" => "August",
+        "09" => "September",
+        "10" => "October",
+        "11" => "November",
+        "12" => "December",
+        _ => panic!("Invalid month number"),
+    };
+    let day = date.next().unwrap();
+    format!("{} {}, {}", month, day, year)
+}
+
+fn format_metadata(metadata: &Metadata) -> String {
+    let title = format!("<h1>{}</h1>", metadata.title);
+    if let Some((date, _)) = metadata.date.clone().unwrap_or_default().split_once('T') {
+        let mut date = format!("<time datetime={}>{}</time>", date, date_to_string(date));
+        date.push_str(&title);
+        date
+    } else {
+        title
+    }
+}
+
 fn md_file(path: &Path, root: &Path, to: PathBuf) {
     let contents = std::fs::read_to_string(path).unwrap_or_default();
 
     let (contents, metadata) = parse_header(&contents);
 
-    let mut html_content = format!("<h1>{}</h1>", metadata.title);
+    let mut html_content = format_metadata(&metadata);
 
     // Convert from .md to .html
     let content = markdown_to_html(&contents, &Options::default());
