@@ -1,5 +1,5 @@
 :root {
-	--col_fg: #ebdbb2;
+	--col_fg: #eaeaea;
 	--col_bg: #141818;
 	--col_lred: #e53231;
 	--col_lorange: #d8813a;
@@ -7,12 +7,8 @@
 	--col_lfg: #ead59d;
 }
 
-@font-face {
-	font-family: nrk;
-	src: url(assets/jetbrains_mono_regular.woff2);
-}
 * {
-	font-family: "nrk", "monospace";
+	font-family: "Fira Mono";
 	font-variant-ligatures: none;
 }
 
@@ -28,15 +24,21 @@ body {
 }
 
 h1 {
-	color: var(--col_lred);
 	font-size: 150%;
 	text-align: center;
-	margin-bottom: 8px;
-	margin-top: 8px;
+	margin-bottom: 32;
+	margin-top: 32;
 } h2, h3, h4, h5, h6 {
 	color: var(--col_lorange);
 	font-size: 102%;
 	margin-bottom: 16px;
+}
+
+time {
+	display: block;
+	text-align: center;
+	font-size: 120%;
+	color: var(--col_lblue);
 }
 
 /* navbar */
@@ -74,15 +76,13 @@ p {
 }
 
 /* codeblocks */
-pre, code {
-	color: var(--col_lfg);
-} code, kbd {
+code, kbd {
 	background-color: #202020;
 	padding: 3px;
 	padding-top: 0px;
 	padding-bottom: 0px;
 } code {
-	border: 1px solid #282828;
+	border: 1px solid #444444;
 } kbd {
 	font-size: 85%;
 	padding-right: 5px;
