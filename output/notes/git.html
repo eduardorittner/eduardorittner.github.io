@@ -1,0 +1,13 @@
+<html><head> <title>'Notes on Git'</title> <link href="../style.css" rel="stylesheet" type="text/css" media="all" <meta charset="UTF-8"> <script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} }); </script> <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script> </head> <body><div class="navbar"><a href="../index.html" class="">Home</a><a href="../posts.html" class="">Posts</a><a href="../notes.html" class="active">Notes</a></div><hr>
+        <h1>1. Merging unrelated repos</h1>
+<p>You can merge two entirely distinct and independent repos, which can be very useful. Saw this on one of Jon Gjenset's <a href="https://www.youtube.com/watch?v=xUH-4y92jPg&amp;t=5104s&amp;ab_channel=JonGjengset">streams</a> where he basically has a repo with some general github actions for CI in rust crates, and whenever he creates a new repo for a crate, he adds the CI repo, merges it and gets all the github actions configured right away. The benefit of this strategy is that if somedat he updates the CI repo, adds some new action or changes an existing one, he can update any repo that uses them by just pulling and merging the changes.</p>
+<h2>How to:</h2>
+<ol>
+<li>Add the repo as a remote with <code>git add remote &lt;branch-name&gt; &lt;second-repo&gt;</code></li>
+<li>Run <code>git fetch &lt;branch-name&gt;</code> to pull all changes</li>
+<li>Run <code>git merge --allow-unrelated &lt;branch-name&gt;/main</code> to merge</li>
+</ol>
+<p>And you're good to go. If at any point changes are made to the second repo, you just redo steps 2 and 3 again.</p>
+<h2>Use cases:</h2>
+<p>The most useful use case for this is also the one on Jon Gjenset's stream, which is basically any generic configuration that you may want to reuse for more than one git repo. In his case, they were github actions for rust crates, but you could imagine for example a common .clang-format file that you want to use for all your c projects, or some common c headers you use all the time.</p>
+</body></html>
