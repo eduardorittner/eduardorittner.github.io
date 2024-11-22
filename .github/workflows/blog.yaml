@@ -37,9 +37,9 @@ jobs:
         with:
           toolchain: stable
       - run: |
-        cd builder
-        cargo run --no-default-features -- --from ../src --to ../output
-        mv ../output/* ../
+          cd builder
+          cargo run --no-default-features -- --from ../src --to ../output
+          mv ../output/* ../
       # - name: Upload static files as artifact
       #   id: deployment
       #   uses: actions/upload-pages-artifact@v3
