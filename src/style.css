@@ -38,7 +38,7 @@ time {
 	display: block;
 	text-align: center;
 	font-size: 120%;
-	color: var(--cor_lorange);
+	color: var(--col_lblue);
 }
 
 /* navbar */
@@ -76,15 +76,13 @@ p {
 }
 
 /* codeblocks */
-pre, code {
-	color: var(--col_lfg);
-} code, kbd {
+code, kbd {
 	background-color: #202020;
 	padding: 3px;
 	padding-top: 0px;
 	padding-bottom: 0px;
 } code {
-	border: 1px solid #282828;
+	border: 1px solid #444444;
 } kbd {
 	font-size: 85%;
 	padding-right: 5px;
