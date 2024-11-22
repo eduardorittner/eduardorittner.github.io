@@ -32,11 +32,11 @@ jobs:
     name: Build website
     steps:
       - name: build html files
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+        uses: actions/checkout@v2
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: |
+        run: |
           cd builder
           cargo run --no-default-features -- --from ../src --to ../output
           mv ../output/* ../
