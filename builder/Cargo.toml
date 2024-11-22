@@ -5,5 +5,4 @@ edition = "2021"
 
 [dependencies]
 comrak = "0.29.0"
-gumdrop = "0.8.1"
 walkdir = "2.5.0"

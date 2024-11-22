@@ -1,6 +1,4 @@
 use comrak::{markdown_to_html, Options};
-use gumdrop::Options as ArgOptions;
-use std::fs::read_to_string;
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
@@ -10,6 +8,7 @@ fn format_header(title: &str, root: &str) -> String {
     <head> \
     <title>{}</title> \
     <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" \
+    <link href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'> \
     <meta charset=\"UTF-8\"> \
     <script type=\"text/x-mathjax-config\"> \
     MathJax.Hub.Config({{ \
@@ -57,14 +56,6 @@ fn format_navbar(prefix: &str, kind: ArticleKind) -> String {
 
 fn format_footer() -> String {
     "</body></html>".to_string()
-}
-
-#[derive(ArgOptions, Debug)]
-struct Args {
-    #[options(help = "root directory of .md files")]
-    from: PathBuf,
-    #[options(help = "root directory of generated site")]
-    to: PathBuf,
 }
 
 fn relative_path(path: &Path, from: &Path, to: &Path) -> PathBuf {
@@ -127,7 +118,7 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
 
     metadata.date = Some(date.to_string());
 
-    let (draft, rest) = if rest.starts_with("draft") {
+    let (_, rest) = if rest.starts_with("draft") {
         rest.split_once('\n')
             .expect("Expected line break after 'draft' parameter")
     } else {
@@ -142,13 +133,16 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
 }
 
 fn md_file(path: &Path, root: &Path, to: PathBuf) {
-    // TODO add header, navbar and footer
     let contents = std::fs::read_to_string(path).unwrap_or_default();
 
     let (contents, metadata) = parse_header(&contents);
 
+    let mut html_content = format!("<h1>{}</h1>", metadata.title);
+
     // Convert from .md to .html
-    let html_content = markdown_to_html(&contents, &Options::default());
+    let content = markdown_to_html(&contents, &Options::default());
+
+    html_content.push_str(&content);
 
     let dest_string = to.to_str().unwrap_or_default();
     let path_string = path.to_str().unwrap_or_default();
@@ -185,19 +179,10 @@ fn md_file(path: &Path, root: &Path, to: PathBuf) {
 }
 
 fn main() {
-    let opts = Args::parse_args_default_or_exit();
-
-    // Create "to" dir if doesn't exist
-    if !opts.to.exists() {
-        std::fs::create_dir(opts.to.clone()).expect("Couldn't create dir: {opts.to:?}");
-    }
-
-    // Iterate recursively from "from" dir
-    for entry in WalkDir::new(opts.from.clone())
-        .into_iter()
-        .filter_map(|e| e.ok())
-    {
-        let path = relative_path(entry.path(), &opts.from, &opts.to);
+    let root = Path::new("../src");
+    let to = Path::new("../output");
+    for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
+        let path = relative_path(entry.path(), &root, &to);
 
         // Create child dir if doesn't exist
         if entry.file_type().is_dir() {
@@ -210,7 +195,7 @@ fn main() {
             .unwrap_or_default()
             .ends_with(".md")
         {
-            md_file(entry.path(), &opts.to, path);
+            md_file(entry.path(), &to, path);
         } else {
             static_file(entry.path(), path);
         }
