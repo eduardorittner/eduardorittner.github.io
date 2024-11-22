@@ -29,9 +29,9 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build website
+    # name: Build website
     steps:
-      # - name: build html files
+      - name: build html files
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
