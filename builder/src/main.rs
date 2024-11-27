@@ -49,13 +49,13 @@ fn format_navbar(prefix: &str, kind: ArticleKind) -> String {
         <a href=\"{prefix}index.html\" class=\"{home}\">Home</a>\
         <a href=\"{prefix}posts.html\" class=\"{post}\">Posts</a>\
         <a href=\"{prefix}notes.html\" class=\"{note}\">Notes</a>\
-        </div><hr>
+        </div>
         "
     )
 }
 
 fn format_footer() -> String {
-    "</body></html>".to_string()
+    "</article></body></html>".to_string()
 }
 
 fn relative_path(path: &Path, from: &Path, to: &Path) -> PathBuf {
@@ -89,6 +89,14 @@ impl Default for Metadata {
     }
 }
 
+fn strip_string_delim(s: &str) -> &str {
+    if let Some(s) = s.strip_prefix("'") {
+        s.strip_suffix("'").unwrap()
+    } else {
+        s.strip_prefix("\"").unwrap().strip_suffix("\"").unwrap()
+    }
+}
+
 fn parse_header(contents: &str) -> (&str, Metadata) {
     let mut metadata = Metadata::default();
     let header_start = contents.strip_prefix("+++\n");
@@ -106,6 +114,7 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
         .split_once('\n')
         .expect("Expected '\n' after title parameter");
 
+    let title = strip_string_delim(title);
     metadata.title = title.to_string();
 
     let date_start = rest
@@ -132,38 +141,17 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
     (rest, metadata)
 }
 
-/// Expects strings of format YYYY-MM-DD
-fn date_to_string(date: &str) -> String {
-    let mut date = date.split('-');
-    let year = date.next().unwrap();
-    let month = match date.next().unwrap() {
-        "01" => "January",
-        "02" => "February",
-        "03" => "March",
-        "04" => "April",
-        "05" => "May",
-        "06" => "June",
-        "07" => "July",
-        "08" => "August",
-        "09" => "September",
-        "10" => "October",
-        "11" => "November",
-        "12" => "December",
-        _ => panic!("Invalid month number"),
-    };
-    let day = date.next().unwrap();
-    format!("{} {}, {}", month, day, year)
-}
-
 fn format_metadata(metadata: &Metadata) -> String {
-    let title = format!("<h1>{}</h1>", metadata.title);
+    let mut title = format!(
+        "<article id=\"post\"><div class=\"stack\"><h1>{}</h1>",
+        metadata.title
+    );
     if let Some((date, _)) = metadata.date.clone().unwrap_or_default().split_once('T') {
-        let mut date = format!("<time datetime={}>{}</time>", date, date_to_string(date));
-        date.push_str(&title);
-        date
-    } else {
-        title
+        let date = format!("<span class=\"date\">Published: {}</span>", date);
+        title.push_str(&date);
     }
+    title.push_str("</div>");
+    title
 }
 
 fn md_file(path: &Path, root: &Path, to: PathBuf) {
