@@ -1,0 +1,32 @@
+:root {
+  --pink-primary: #ff69b4;
+  --pink-secondary: #ffb6c1;
+  --white: #ffffff;
+  --black: #000000;
+  --light-gray: #f2f2f2;
+  --dark-gray: #808080;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+  background-color: var(--pink-secondary);
+}
+
+body {
+  background-color: var(--pink-secondary);
+		color: var(--pink-secondary);
+}
+
+h1 {
+  color: var(--pink-primary);
+}
+
+p {
+  color: var(--black);
+}

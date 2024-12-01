@@ -1,0 +1,39 @@
+<html>
+
+<head>
+	<title>Baby's advent</title>
+	<link href="./style.css" rel="stylesheet" type="text/css" media="all" <link
+		href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<form id="form">
+		<label for="name">Dias para o natal:</label>
+		<p>Oi meu amor! Sabe quantos dias faltam pro natal?: <span style="display: inline-block;">
+				<input type="text" id="dias" name="dias">
+				<button type="button" id="submitBtn">Mandar</button>
+			</span></p>
+	</form>
+	<img id="hellokitty_congrats" src="hk_parabens.jpg" style="display: none;">
+
+	<script>
+		function displayImage(string) {
+			const imageElement = document.getElementById("hellokitty_congrats");
+
+			if (string === "24") {
+				imageElement.style.display = "block";
+			} else {
+				imageElement.style.display = "none";
+			}
+		}
+		const dias_input = document.getElementById('dias');
+		const submitBtn = document.getElementById('submitBtn');
+
+		submitBtn.addEventListener('click', () => {
+			const dias = dias_input.value;
+			displayImage(dias)
+		});
+	</script>
+
+</body>
