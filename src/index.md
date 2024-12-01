@@ -3,11 +3,11 @@ I'm currently interested in programming language and compiler design and operati
 
 #### You can check out:
 
-- [Posts](posts.html) where I generally write longer articles about various topics.
+- [Posts](posts/posts.html) where I generally write longer articles about various topics.
 
-- [Notes](notes.html) where I write small technical notes.
+- [Notes](notes/notes.html) where I write small technical notes.
 
-- [Ramblings](ramblings.html) where I write whatever comes to mind whenever.
+- [Ramblings](ramblings/ramblings.html) where I write whatever comes to mind whenever.
 
 #### About me:
 

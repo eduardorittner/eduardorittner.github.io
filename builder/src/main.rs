@@ -24,22 +24,93 @@ fn format_header(title: &str, root: &str) -> String {
     )
 }
 
-enum ArticleKind {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum PageKind {
+    Index,
+    Article,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Category {
     Home,
     Post,
     Note,
     Rambling,
 }
 
-fn format_navbar(prefix: &str, kind: ArticleKind) -> String {
+#[derive(Debug, Clone)]
+struct Page {
+    content: String,
+    kind: PageKind,
+    category: Category,
+    metadata: Metadata,
+}
+
+impl Page {
+    fn new(path: &Path) -> Self {
+        let content =
+            std::fs::read_to_string(path).expect(&format!("Couldn't read file: {:?}", path));
+
+        let kind = if path.ends_with("index.md")
+            || path.ends_with("posts.md")
+            || path.ends_with("notes.md")
+            || path.ends_with("ramblings.md")
+        {
+            PageKind::Index
+        } else {
+            PageKind::Article
+        };
+
+        let category = if let Some(path) = path.parent() {
+            if path.ends_with("posts/") {
+                Category::Post
+            } else if path.ends_with("notes/") {
+                Category::Note
+            } else if path.ends_with("ramblings/") {
+                Category::Rambling
+            } else if path.ends_with("src/") {
+                Category::Home
+            } else {
+                unreachable!()
+            }
+        } else {
+            Category::Home
+        };
+
+        let metadata = match kind {
+            PageKind::Article => parse_header(&content),
+            PageKind::Index => {
+                let title = match category {
+                    Category::Home => "Homepage",
+                    Category::Post => "Posts",
+                    Category::Note => "Notes",
+                    Category::Rambling => "Ramblings",
+                };
+                Metadata {
+                    title: title.to_string(),
+                    date: None,
+                }
+            }
+        };
+
+        Self {
+            kind,
+            category,
+            content,
+            metadata,
+        }
+    }
+}
+
+fn format_navbar(prefix: &str, kind: Category) -> String {
     let mut home = "";
     let mut post = "";
     let mut note = "";
 
     match kind {
-        ArticleKind::Home => home = "active",
-        ArticleKind::Post => post = "active",
-        ArticleKind::Note => note = "active",
+        Category::Home => home = "active",
+        Category::Post => post = "active",
+        Category::Note => note = "active",
         _ => (),
     }
 
@@ -47,8 +118,8 @@ fn format_navbar(prefix: &str, kind: ArticleKind) -> String {
         "<body>\
         <div class=\"navbar\">\
         <a href=\"{prefix}index.html\" class=\"{home}\">Home</a>\
-        <a href=\"{prefix}posts.html\" class=\"{post}\">Posts</a>\
-        <a href=\"{prefix}notes.html\" class=\"{note}\">Notes</a>\
+        <a href=\"{prefix}posts/posts.html\" class=\"{post}\">Posts</a>\
+        <a href=\"{prefix}notes/notes.html\" class=\"{note}\">Notes</a>\
         </div>
         "
     )
@@ -74,7 +145,7 @@ fn static_file(path: &Path, to: PathBuf) {
     std::fs::copy(path, to).expect("Couldn't copy static file");
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Metadata {
     title: String,
     date: Option<String>,
@@ -97,12 +168,12 @@ fn strip_string_delim(s: &str) -> &str {
     }
 }
 
-fn parse_header(contents: &str) -> (&str, Metadata) {
+fn parse_header(contents: &str) -> Metadata {
     let mut metadata = Metadata::default();
     let header_start = contents.strip_prefix("+++\n");
 
     let header_start = match header_start {
-        None => return (contents, metadata),
+        None => return metadata,
         Some(a) => a,
     };
 
@@ -138,7 +209,7 @@ fn parse_header(contents: &str) -> (&str, Metadata) {
         .strip_prefix("+++\n")
         .expect("Expected '+++' delimiter");
 
-    (rest, metadata)
+    metadata
 }
 
 fn format_metadata(metadata: &Metadata) -> String {
@@ -155,14 +226,14 @@ fn format_metadata(metadata: &Metadata) -> String {
 }
 
 fn md_file(path: &Path, root: &Path, to: PathBuf) {
-    let contents = std::fs::read_to_string(path).unwrap_or_default();
+    let page = Page::new(path);
 
-    let (contents, metadata) = parse_header(&contents);
-
-    let mut html_content = format_metadata(&metadata);
+    let mut html_content = format_metadata(&page.metadata);
 
     // Convert from .md to .html
-    let content = markdown_to_html(&contents, &Options::default());
+    let mut options = Options::default();
+    options.extension.front_matter_delimiter = Some("+++".to_owned());
+    let content = markdown_to_html(&page.content, &options);
 
     html_content.push_str(&content);
 
@@ -174,18 +245,8 @@ fn md_file(path: &Path, root: &Path, to: PathBuf) {
 
     let depth = relative.chars().filter(|c| *c == '/').count() - 1;
     let prefix = if depth == 0 { "" } else { "../" };
-    let html_header = format_header(&metadata.title, prefix);
-
-    let html_navbar = if path_string.contains("posts/") {
-        format_navbar(prefix, ArticleKind::Post)
-    } else if path_string.contains("notes/") {
-        format_navbar(prefix, ArticleKind::Note)
-    } else if path_string.contains("ramblings/") {
-        format_navbar(prefix, ArticleKind::Rambling)
-    } else {
-        format_navbar(prefix, ArticleKind::Home)
-    };
-
+    let html_header = format_header(&page.metadata.title, prefix);
+    let html_navbar = format_navbar(prefix, page.category);
     let html_footer = format_footer();
 
     let html = html_header + &html_navbar + &html_content + &html_footer;
