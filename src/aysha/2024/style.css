@@ -14,6 +14,12 @@ html, body {
     padding: 0;
 }
 
+img {
+    height: 80vh; /* 100% of the viewport height */
+    object-fit: cover;
+    margin: auto;
+}
+
 html {
   background-color: var(--pink-secondary);
 }
@@ -21,6 +27,15 @@ html {
 body {
   background-color: var(--pink-secondary);
 		color: var(--pink-secondary);
+		font-size: 2em;
+}
+
+input {
+		font-size: 1em;
+}
+
+button {
+		font-size: 1em;
 }
 
 h1 {
@@ -30,3 +45,4 @@ h1 {
 p {
   color: var(--black);
 }
+
