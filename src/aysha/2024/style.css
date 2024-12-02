@@ -38,8 +38,8 @@ button {
 		font-size: 1em;
 }
 
-h1 {
-  color: var(--pink-primary);
+div {
+  color: var(--black);
 }
 
 p {

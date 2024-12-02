@@ -1,0 +1,54 @@
+<html>
+
+<head>
+	<title>Baby's advent</title>
+	<link href="./style.css" rel="stylesheet" type="text/css" media="all" <link
+		href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<form id="form">
+		<p>Bom dia meu amor! Quem vai gabaritar a prova hoje? <span style="display: inline-block;">
+				<input type="text" id="quem" name="quem">
+				<button type="button" id="submitBtn">Mandar</button>
+			</span></p>
+	</form>
+	<div id="result" style="display: inline-block"></div>
+
+	<form id="pergunta-anato" style="display: none">
+		<p> O cérebro é formado por neurônios e? <span style="display: inline-block;">
+				<input type="text" id="anato" name="anato">
+				<button type="button" id="anato_btn">Mandar</button>
+			</span></p>
+	</form>
+
+	<div id="result2" style="display: inline-block"></div>
+
+	<script>
+		const submitBtn = document.getElementById('submitBtn');
+		const anato_btn = document.getElementById('anato_btn');
+
+		submitBtn.addEventListener('click', () => {
+			const dias_input = document.getElementById('quem');
+			const quem = dias_input.value;
+			const result_div = document.getElementById('result');
+			const form_anato = document.getElementById('pergunta-anato');
+
+			if (quem === "me" || quem === "gatinha" || quem === "baby") {
+				result_div.textContent = "Acertou! tem direito a uma cóquinha pós-prova";
+				form_anato.style.display = "inline-block";
+			} else {
+				result_div.textContent = "ene.";
+				form_anato.style.display = "none";
+			}
+		});
+
+		anato_btn.addEventListener('click', () => {
+			const result_div = document.getElementById('result2');
+			// No checking because too hard
+			result_div.textContent = "Acertou de novo! você é um gênio da neuroanatomia";
+		});
+	</script>
+
+</body>
