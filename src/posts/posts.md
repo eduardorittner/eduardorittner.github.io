@@ -1,5 +1,5 @@
-## Blog Posts
+### Blog Posts
 
-* [How to solve dynamic programming problems](posts/dynamic-programming.html)
-* [My first Open Source contribution](posts/my-first-open-source-contribution.html)
-* [Setting up multiple git accounts](posts/setup-multiple-git-accounts.html)
+* [How to solve dynamic programming problems](dynamic-programming.html)
+* [My first Open Source contribution](my-first-open-source-contribution.html)
+* [Setting up multiple git accounts](setup-multiple-git-accounts.html)
