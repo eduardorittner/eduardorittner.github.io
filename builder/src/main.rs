@@ -192,22 +192,11 @@ fn parse_header(contents: &str) -> Metadata {
         .strip_prefix("date = ")
         .expect("Expected 'date = ' after title declaration");
 
-    let (date, rest) = date_start
+    let (date, _) = date_start
         .split_once('\n')
         .expect("Expected '\n' after date parameter");
 
     metadata.date = Some(date.to_string());
-
-    let (_, rest) = if rest.starts_with("draft") {
-        rest.split_once('\n')
-            .expect("Expected line break after 'draft' parameter")
-    } else {
-        ("", rest)
-    };
-
-    let rest = rest
-        .strip_prefix("+++\n")
-        .expect("Expected '+++' delimiter");
 
     metadata
 }
@@ -238,7 +227,6 @@ fn md_file(path: &Path, root: &Path, to: PathBuf) {
     html_content.push_str(&content);
 
     let dest_string = to.to_str().unwrap_or_default();
-    let path_string = path.to_str().unwrap_or_default();
     let root_string = root.to_str().unwrap_or_default();
 
     let (_, relative) = dest_string.split_once(root_string).unwrap_or_default();
