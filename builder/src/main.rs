@@ -7,7 +7,7 @@ fn format_header(title: &str, root: &str) -> String {
         "<html>\
     <head> \
     <title>{}</title> \
-    <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" \
+    <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"> \
     <link href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'> \
     <meta charset=\"UTF-8\"> \
     <script type=\"text/x-mathjax-config\"> \
