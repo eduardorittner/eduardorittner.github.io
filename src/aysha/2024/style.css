@@ -20,22 +20,37 @@ img {
     margin: auto;
 }
 
+body {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 html {
   background-color: var(--pink-secondary);
+  font-size: 4em;
+}
+
+input {
+  font-size: 1em;
+  margin-left: 20px;
+}
+
+button {
+  font-size: 1em;
+  margin-left: 20px;
+}
+
+
+/* Adjust font size for smaller screens */
+@media (max-width: 768px) {
+  html {
+    font-size: 4em;
+  }
 }
 
 body {
   background-color: var(--pink-secondary);
 		color: var(--pink-secondary);
-		font-size: 2em;
-}
-
-input {
-		font-size: 1em;
-}
-
-button {
-		font-size: 1em;
 }
 
 div {

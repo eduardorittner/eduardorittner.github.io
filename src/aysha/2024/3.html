@@ -1,0 +1,35 @@
+<html>
+
+<head>
+	<title>Baby's advent</title>
+	<link href="./style.css" rel="stylesheet" type="text/css" media="all" <link
+		href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<form id="form">
+		<p>Bom dia meu amor! Quem comeu torta de frango comigo hoje? <span style="display: inline-block;">
+				<input type="text" id="quem" name="quem">
+				<button type="button" id="submitBtn">Mandar</button>
+			</span></p>
+	</form>
+	<div id="result" style="display: inline-block"></div>
+
+	<script>
+		const submitBtn = document.getElementById('submitBtn');
+
+		submitBtn.addEventListener('click', () => {
+			const dias_input = document.getElementById('quem');
+			const quem = dias_input.value;
+			const result_div = document.getElementById('result');
+
+			if (quem === "me" || quem === "gatinha" || quem === "baby" || quem.includes("me")) {
+				result_div.textContent = "Muito bem meu anjo! O que você quer de treat?";
+			} else {
+				result_div.textContent = "ene.";
+			}
+		});
+	</script>
+
+</body>
