@@ -1,0 +1,40 @@
+<html>
+
+<head>
+	<title>Baby's advent</title>
+	<link href="./style.css" rel="stylesheet" type="text/css" media="all" <link
+		href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+
+	<h1>4/25</h1>
+
+	<form id="form">
+		<p>Bom dia minha princesa! A pergunta de hoje é um pouco mais fácil (eu espero). Quem é o amor da sua vida?
+			<span style="display: inline-block;">
+				<input type="text" id="quem" name="quem">
+				<button type="button" id="submitBtn">Mandar</button>
+			</span>
+		</p>
+	</form>
+	<div id="result" style="display: inline-block"></div>
+
+	<script>
+		const submitBtn = document.getElementById('submitBtn');
+
+		submitBtn.addEventListener('click', () => {
+			const dias_input = document.getElementById('quem');
+			const quem = dias_input.value;
+			const result_div = document.getElementById('result');
+
+			if (quem.includes("amorzinho") || quem.includes("gatinho") || quem.includes("baby") || quem.includes("bibi")) {
+				result_div.textContent = "Parabéns meu amor! Ganhou um vale 3 beijinhos 😘";
+			} else {
+				result_div.textContent = "ene.";
+			}
+		});
+	</script>
+
+</body>

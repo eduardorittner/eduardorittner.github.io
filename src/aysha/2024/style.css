@@ -48,6 +48,10 @@ button {
   }
 }
 
+h1 {
+  color: var(--black);
+}
+
 body {
   background-color: var(--pink-secondary);
 		color: var(--pink-secondary);
