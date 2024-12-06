@@ -14,7 +14,7 @@ After the initial weeks I've now got something that mostly works, and my current
 
 # Features I want to have
 
-Right now things are pretty simple, but there are some features which I'd really like to add, there are taken mostly from Daniel's [Microfeatures](https://danilafe.com/blog/blog_microfeatures/) post, which I enjoyed.
+Right now things are pretty simple but there are some features which I'd really like to add, taken from Daniel's [Microfeatures I Love in Blogs and Personal Websites](https://danilafe.com/blog/blog_microfeatures/) post, which I enjoyed.
 
 ## Table of contents
 
