@@ -107,5 +107,13 @@ code, kbd {
 	color: var(--col_lblue);
 }
 
+a {
+	color: var(--col_lblue);
+}
+
+a:visited {
+	color: red;
+}
+
 
 
