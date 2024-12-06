@@ -44,7 +44,8 @@ There are also some internal features which I want to add. These should not real
 
 The rust code that builds my site is on the same repo as my [blog](https://github.com/eduardorittner/eduardorittner.github.io), and is a crate named (very creatively) builder. Right now all it does is:
 
-1. walk all directories recursively starting from `src/` 2. For every non-md file, copy it to `/output` as is
+1. walk all directories recursively starting from `src/`
+2. For every non-md file, copy it to `/output` as is
 3. For every md file:
     1. Parse its metadata
     2. Construct a `Page` type, which contains its category, metadata and content
