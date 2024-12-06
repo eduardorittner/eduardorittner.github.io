@@ -44,7 +44,7 @@ h1 {
 }
 
 .stack {
-	background-color: #0b2b57;
+	background-color: var(--col_dred);
 	border-radius: 10px;
 }
 
