@@ -51,7 +51,13 @@ pub fn format_footer() -> String {
 
 pub fn format_metadata(metadata: &Metadata) -> String {
     let mut title = format!(
-        "<article id=\"post\"><div class=\"stack\"><h1>{}</h1>",
+        "<article id=\"post\">\
+        <div class=\"stack\">\
+        <div class=\"container\">\
+        <div class=\"break\"></div>\
+        <h1>{}</h1>\
+        <div class=\"break\"></div>\
+        </div>",
         metadata.title
     );
     if let Some((date, _)) = metadata.date.clone().unwrap_or_default().split_once('T') {

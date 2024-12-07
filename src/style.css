@@ -28,6 +28,25 @@ article {
 	padding-bottom: 10px;
 }
 
+.container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.break {
+	flex: 1;
+}
+
+.break::after {
+	content: "";
+	display: inline-block;
+	position: relative;
+	width: 80%;
+	top: 50%;
+	left: 10%;
+	border-top: 3px solid black;
+}
+
 h1 {
 	font-size: 150%;
 	font-weight: bolder;
