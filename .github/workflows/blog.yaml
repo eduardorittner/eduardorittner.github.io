@@ -34,7 +34,7 @@ jobs:
       - name: cargo run
         run: |
           cd builder
-          cargo run
+          cargo run --no-default-features
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
