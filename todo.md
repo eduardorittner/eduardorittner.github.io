@@ -3,8 +3,10 @@
 - [X] Lighten link colors 
 - [ ] Increase spacing for headers inside articles
 - [ ] Add breaks along with article headers.
-    Optional: something like this would be nice, not sure how hard
-    ======== I'M A HEADER =======
+    - [X] Add breaks for page titles
+    - [ ] Surround every html header with <div class="break"> divs (using headingadapter?)
+    - [ ] Change color based on background (black on page titles, white on article headings)
+
 
 # External features
 
