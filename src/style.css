@@ -28,12 +28,12 @@ article {
 	padding-bottom: 10px;
 }
 
-.container {
+.heading-container {
 	display: flex;
 	justify-content: space-between;
 }
 
-.break {
+.break, .small-break {
 	flex: 1;
 }
 
@@ -47,6 +47,16 @@ article {
 	border-top: 3px solid black;
 }
 
+.small-break::after {
+	content: "";
+	display: inline-block;
+	position: relative;
+	width: 80%;
+	top: 50%;
+	left: 10%;
+	border-top: 3px solid white;
+}
+
 h1 {
 	font-size: 150%;
 	font-weight: bolder;
@@ -56,10 +66,13 @@ h1 {
 	display: inline-block;
 } h2 {
 	text-align: center;
+	display: inline-block;
 	font-size: 130%;
 	margin-bottom: 2em;
 	margin-top: 2em;
 } h3 {
+	display: inline-block;
+	text-align: center;
 	font-size: 110%;
 	margin-bottom: 1.5em;
 	margin-top: 1.5em;

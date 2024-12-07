@@ -53,7 +53,7 @@ pub fn format_metadata(metadata: &Metadata) -> String {
     let mut title = format!(
         "<article id=\"post\">\
         <div class=\"stack\">\
-        <div class=\"container\">\
+        <div class=\"heading-container\">\
         <div class=\"break\"></div>\
         <h1>{}</h1>\
         <div class=\"break\"></div>\

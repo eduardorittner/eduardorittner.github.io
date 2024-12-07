@@ -1,5 +1,7 @@
 use crate::*;
-use comrak::{markdown_to_html, Options};
+use comrak::{
+    adapters, markdown_to_html_with_plugins, Options, PluginsBuilder, RenderPluginsBuilder,
+};
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
@@ -19,15 +21,81 @@ fn static_file(path: &Path, to: PathBuf) {
     std::fs::copy(path, to).expect("Couldn't copy static file");
 }
 
+struct Heading;
+
+impl adapters::HeadingAdapter for Heading {
+    fn enter(
+        &self,
+        output: &mut dyn std::io::Write,
+        heading: &adapters::HeadingMeta,
+        _sourcepos: Option<comrak::nodes::Sourcepos>,
+    ) -> std::io::Result<()> {
+        let level = if heading.level < 6 {
+            heading.level + 1
+        } else {
+            6
+        };
+
+        if level < 3 {
+            write!(
+                output,
+                "<div class=\"heading-container\">\
+                <div class=\"small-break\"></div>"
+            )
+            .unwrap();
+        }
+        write!(output, "<h{}>", level)
+    }
+
+    fn exit(
+        &self,
+        output: &mut dyn std::io::Write,
+        heading: &adapters::HeadingMeta,
+    ) -> std::io::Result<()> {
+        let level = if heading.level < 6 {
+            heading.level + 1
+        } else {
+            6
+        };
+
+        if level < 3 {
+            write!(
+                output,
+                "</h{}>\
+                <div class=\"small-break\"></div>\
+                </div>",
+                level,
+            )
+        } else {
+            write!(output, "</h{}>", level)
+        }
+    }
+}
+
+pub fn to_html(content: &str) -> String {
+    let mut options = Options::default();
+    options.extension.front_matter_delimiter = Some("+++".to_owned());
+
+    let heading_adapter = Heading;
+    let render_plugin = RenderPluginsBuilder::default()
+        .heading_adapter(Some(&heading_adapter))
+        .build()
+        .unwrap();
+
+    let plugin = PluginsBuilder::default()
+        .render(render_plugin)
+        .build()
+        .unwrap();
+
+    markdown_to_html_with_plugins(content, &options, &plugin)
+}
+
 pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
     let page = Page::new(path);
 
     let mut html_content = format_metadata(&page.metadata);
 
-    // Convert from .md to .html
-    let mut options = Options::default();
-    options.extension.front_matter_delimiter = Some("+++".to_owned());
-    let content = markdown_to_html(&page.content, &options);
+    let content = to_html(&page.content);
 
     html_content.push_str(&content);
 
