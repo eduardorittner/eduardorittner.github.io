@@ -34,14 +34,14 @@ fn headers(to: &Path) {
 }
 
 mod links {
-    use crate::builder::build;
+    
     use jwalk::WalkDir;
     use rayon::prelude::*;
     use reqwest;
     use std::collections::VecDeque;
     use std::fs::read_to_string;
     use std::path::Path;
-    use std::sync::Arc;
+    
 
     struct LinkIterator<'a> {
         links: VecDeque<&'a str>,
