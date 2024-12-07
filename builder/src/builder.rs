@@ -51,7 +51,7 @@ pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
     // [implementation](https://docs.rs/comrak/latest/comrak/adapters/trait.HeadingAdapter.html)
 
     // Write to file
-    std::fs::write(to.clone(), html).expect(&format!("Couldn't write to file: {:?}", to));
+    std::fs::write(to.clone(), html).unwrap_or_else(|_| panic!("Couldn't write to file: {:?}", to));
 }
 
 pub fn build(root: &Path, to: &Path) {
@@ -60,7 +60,7 @@ pub fn build(root: &Path, to: &Path) {
     }
 
     for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
-        let path = relative_path(entry.path(), &root, &to);
+        let path = relative_path(entry.path(), root, to);
 
         // Create child dir if doesn't exist
         if entry.file_type().is_dir() {
@@ -73,7 +73,7 @@ pub fn build(root: &Path, to: &Path) {
             .unwrap_or_default()
             .ends_with(".md")
         {
-            md_file(entry.path(), &to, path);
+            md_file(entry.path(), to, path);
         } else {
             static_file(entry.path(), path);
         }

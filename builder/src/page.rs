@@ -40,7 +40,7 @@ pub struct Page {
 impl Page {
     pub fn new(path: &Path) -> Self {
         let content =
-            std::fs::read_to_string(path).expect(&format!("Couldn't read file: {:?}", path));
+            std::fs::read_to_string(path).unwrap_or_else(|_| panic!("Couldn't read file: {:?}", path));
 
         let kind = if path.ends_with("index.md")
             || path.ends_with("posts.md")

@@ -111,7 +111,7 @@ mod links {
                         let iterator = LinkIterator::new_relative(&content);
 
                         iterator.links.par_iter().for_each(|link| {
-                            let full_path = entry.path().parent().unwrap().join(&Path::new(&link));
+                            let full_path = entry.path().parent().unwrap().join(Path::new(&link));
 
                             if !full_path.exists() {
                                 panic!(
