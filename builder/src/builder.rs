@@ -112,12 +112,6 @@ pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
 
     let html = html_header + &html_navbar + &html_content + &html_footer;
 
-    // TODO downsize all headings one level, so the post title is h1 and
-    // the '# title' blocks in markdown correspond to h2 and below
-    // mayber using [heading adapter](https://docs.rs/comrak/latest/comrak/adapters/trait.HeadingAdapter.html)?
-    // Could just copy their implementation and write nch.level - 1
-    // [implementation](https://docs.rs/comrak/latest/comrak/adapters/trait.HeadingAdapter.html)
-
     // Write to file
     std::fs::write(to.clone(), html).unwrap_or_else(|_| panic!("Couldn't write to file: {:?}", to));
 }
