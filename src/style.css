@@ -106,7 +106,8 @@ header::after {
 
 /* navbar */
 .navbar {
-	width: 30%;
+	display: flex;
+	justify-content: center;
 	margin-top: 16px;
 	padding-top: 32px;
 	margin: 0 auto;
