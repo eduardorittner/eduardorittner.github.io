@@ -51,15 +51,20 @@ h1 {
 	font-size: 150%;
 	font-weight: bolder;
 	text-align: center;
-	padding-top: 16px;
-	padding-bottom: 16px;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	display: inline-block;
 } h2 {
 	text-align: center;
 	font-size: 130%;
-	margin-bottom: 16px;
+	margin-bottom: 2em;
+	margin-top: 2em;
 } h3 {
 	font-size: 110%;
-	margin-bottom: 16px;
+	margin-bottom: 1.5em;
+	margin-top: 1.5em;
+}
+
 header {
   text-align: center;
   position: relative;
