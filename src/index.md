@@ -1,7 +1,7 @@
 This is my personal site where I document things I find interesting, mostly in computer science and programming in general.
 I'm currently interested in programming language and compiler design and operating systems.
 
-#### You can check out:
+### You can check out:
 
 - [Posts](posts/posts.html) where I generally write longer articles about various topics.
 
@@ -11,6 +11,6 @@ I'm currently interested in programming language and compiler design and operati
 
 - [Reading](reading.html) where I keep a list of blogs, posts and videos I enjoy.
 
-#### About me:
+### About me:
 
 - [Github](https://github.com/eduardorittner) Is what I use for my personal projects and contributions.

@@ -1,4 +1,4 @@
-### A collection of small tecnical notes
+# A collection of small tecnical notes
 
 * [Rust's non zero integers](nonzerouint.html)
 * [Archiving all my links](archive.html)

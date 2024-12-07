@@ -1,4 +1,4 @@
-## Blog Posts
+# Blog Posts
 
 * [Building my own Static Site Generator in Rust](blog-todos.html)
 * [How to solve dynamic programming problems](dynamic-programming.html)

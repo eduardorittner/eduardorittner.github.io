@@ -5,7 +5,7 @@ date = 0000-00-00
 
 This is a list of technical articles, blog posts, videos and any other resources that I have learned from.
 
-## Blogs
+# Blogs
 
 I read a lot of technical blogs, most of these have an RSS feed
 
@@ -23,11 +23,11 @@ I read a lot of technical blogs, most of these have an RSS feed
 - [nrk](https://nrk.neocities.org/) - The original inspiration for this site's aesthetics and some good tips on C programming.
 - [Ginger Bill](https://www.gingerbill.org/) - Creator of the [Odin](https://odin-lang.org/) lang. Opinions on programming language designs, and a nice series on memory allocation patterns.
 
-### Specific posts
+## Specific posts
 
 - [Learn Rust the Dangerous Way](https://cliffle.com/p/dangerust/) - Series on learning Rust by using unsafe Rust to convert a very optimized C program to Rust. This really resonated with me, since I come from coding in C and like having low-level control. I also liked the final plot twist that doing everything in safe Rust was actually faster than both the original C version and the unsafe Rust version.
 
-## Youtube Channels
+# Youtube Channels
 
 - [Casey Muratori](https://www.youtube.com/@MollyRocket) - Videos on code performance and optimization.
 - [fasterthanlime](https://www.youtube.com/@fasterthanlime) - Videos on how things work, computers, network stacks, program tracing, etc.
@@ -35,11 +35,11 @@ I read a lot of technical blogs, most of these have an RSS feed
 - [Kay Lack](https://www.youtube.com/@neoeno4242) - Regular expressions, grammars, finite automata, assembly, computer science history, it's all there.
 - [Jon Gjengset](https://www.youtube.com/@jonhoo) - High-quality in-depth features on the internals of Rust or specific Rust crates.
 
-### Videos
+## Videos
 
 - [Crust of Rust: Atomics and Memory Ordering](https://www.youtube.com/watch?v=rMGWeSjctlY&list=PL0d6Tmk0lUnVnZFvG_KVDlmtRaofZ21Gb&index=8&ab_channel=JonGjengset) on Atomics in Memory Ordering in modern CPUs, applied to both the C++ and Rust memory model.
 - [How the stack got stacked](https://www.youtube.com/watch?v=2vBVvQTTdXg&list=PL0d6Tmk0lUnVnZFvG_KVDlmtRaofZ21Gb&index=6&ab_channel=KayLack) on the history of the stack as a data structure. It's really rare to find approachable resources on computer science history. Also kind of mind blowing how at one point in time recursion was thought to be a purely theoretical construct, and how the solution to that was so incredibly simple, but revolutionary.
 
-## Books
+# Books
 
 - [Crafting Interpreters](https://craftinginterpreters.com/) on, you guessed it, interpreters. The book builds a compiler + VM step by step, and is a great resource for those wanting to get started with programming languages.
