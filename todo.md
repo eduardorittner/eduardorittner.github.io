@@ -1,11 +1,11 @@
 # Styling
 
 - [X] Lighten link colors 
-- [ ] Increase spacing for headers inside articles
-- [ ] Add breaks along with article headers.
+- [X] Increase spacing for headers inside articles
+- [X] Add breaks along with article headers.
     - [X] Add breaks for page titles
-    - [ ] Surround every html header with <div class="break"> divs (using headingadapter?)
-    - [ ] Change color based on background (black on page titles, white on article headings)
+    - [X] Surround every html header with <div class="break"> divs (using headingadapter?)
+    - [X] Change color based on background (black on page titles, white on article headings)
 
 
 # External features
