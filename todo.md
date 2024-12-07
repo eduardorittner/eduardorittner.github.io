@@ -15,7 +15,7 @@
 - [ ] RSS
     - [ ] Autodiscovery feature (rss link in metadata of every article)
     - [ ] Link with rss image in every footer
-- [ ] Syntax highlighting
+- [X] Syntax highlighting
 - [ ] Vendor Mathjax script
 
 # Internal features

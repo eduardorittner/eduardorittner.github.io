@@ -1,6 +1,6 @@
 use crate::*;
 use comrak::{
-    adapters, markdown_to_html_with_plugins, Options, PluginsBuilder, RenderPluginsBuilder,
+    adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
@@ -77,8 +77,10 @@ pub fn to_html(content: &str) -> String {
     options.extension.front_matter_delimiter = Some("+++".to_owned());
 
     let heading_adapter = Heading;
+    let syntax_adapter = plugins::syntect::SyntectAdapter::new(Some("base16-mocha.dark"));
     let render_plugin = RenderPluginsBuilder::default()
         .heading_adapter(Some(&heading_adapter))
+        .codefence_syntax_highlighter(Some(&syntax_adapter))
         .build()
         .unwrap();
 
