@@ -19,6 +19,12 @@
 - [X] Syntax highlighting
 - [ ] Vendor Mathjax script
 
+## Optimization/Accesibility
+
+- [X] html lang attribute
+- [ ] Only include mathjax script in pages that use it
+- [ ] Fallback font with font-display="swap"
+
 # Internal features
 
 - [ ] Parallelize tests
