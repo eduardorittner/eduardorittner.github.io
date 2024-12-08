@@ -57,6 +57,13 @@ article {
 	border-top: 3px solid white;
 }
 
+.link-icon {
+	position: relative;
+	top: 20%;
+	margin-left: 10px;
+	height: 20px;
+}
+
 h1 {
 	font-size: 150%;
 	font-weight: bolder;

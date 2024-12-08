@@ -44,7 +44,13 @@ impl adapters::HeadingAdapter for Heading {
             )
             .unwrap();
         }
-        write!(output, "<h{}>", level)
+
+        write!(
+            output,
+            "<h{} id=\"{}\">",
+            level,
+            heading.content.replace(" ", "-")
+        )
     }
 
     fn exit(
@@ -61,9 +67,13 @@ impl adapters::HeadingAdapter for Heading {
         if level < 3 {
             write!(
                 output,
-                "</h{}>\
+                "<a class=\"header-link\" href=\"#{}\">\
+                <img src=\"../assets/link.svg\" class=\"link-icon\" alt=\"Link icon\">\
+                </a>\
+                </h{}>\
                 <div class=\"small-break\"></div>\
                 </div>",
+                heading.content.replace(" ", "-"),
                 level,
             )
         } else {

@@ -11,7 +11,8 @@
 # External features
 
 - [ ] Table of Contents
-- [ ] Linkable headings
+- [X] Linkable headings
+    - [X] Link icon
 - [ ] RSS
     - [ ] Autodiscovery feature (rss link in metadata of every article)
     - [ ] Link with rss image in every footer
