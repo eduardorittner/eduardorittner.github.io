@@ -2,7 +2,8 @@ use crate::page::*;
 
 pub fn format_header(title: &str, root: &str) -> String {
     format!(
-        "<html lang=\"en-US\">\
+        "<!doctype html>\
+    <html lang=\"en-US\">\
     <head> \
     <title>{}</title> \
     <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"> \
