@@ -34,14 +34,13 @@ fn headers(to: &Path) {
 }
 
 mod links {
-    
+
     use jwalk::WalkDir;
     use rayon::prelude::*;
     use reqwest;
     use std::collections::VecDeque;
     use std::fs::read_to_string;
     use std::path::Path;
-    
 
     struct LinkIterator<'a> {
         links: VecDeque<&'a str>,
@@ -58,7 +57,7 @@ mod links {
                 if let Some(end) = s.find("\"") {
                     let link = &s[..end];
 
-                    if !link.contains("http") {
+                    if !link.contains("http") && !link.contains("#") {
                         links.push_front(link);
                     }
                 }
@@ -77,7 +76,7 @@ mod links {
                 if let Some(end) = s.find("\"") {
                     let link = &s[..end];
 
-                    if link.contains("http") {
+                    if link.contains("http") && !link.contains("#") {
                         links.push_front(link);
                     }
                 }
