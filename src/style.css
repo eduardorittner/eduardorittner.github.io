@@ -42,7 +42,7 @@ article {
 	display: inline-block;
 	position: relative;
 	width: 80%;
-	top: 50%;
+	top: 35%;
 	left: 10%;
 	border-top: 3px solid black;
 }
@@ -52,7 +52,7 @@ article {
 	display: inline-block;
 	position: relative;
 	width: 80%;
-	top: 50%;
+	top: 35%;
 	left: 10%;
 	border-top: 3px solid white;
 }
