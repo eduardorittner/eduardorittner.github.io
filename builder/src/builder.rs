@@ -101,9 +101,9 @@ pub fn to_html(page: &Page) -> String {
 
     let html = markdown_to_html_with_plugins(&page.content, &options, &plugin);
 
-    match page.category {
-        Category::Post => table_of_contents(html),
-        Category::Home | Category::Note | Category::Rambling => html,
+    match (page.category, page.kind) {
+        (Category::Post, PageKind::Article) => table_of_contents(html),
+        (_, _) => html,
     }
 }
 
