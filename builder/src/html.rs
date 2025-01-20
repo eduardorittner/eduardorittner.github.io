@@ -15,6 +15,10 @@ pub fn table_of_contents(source: String) -> String {
 }
 
 pub fn format_toc(titles: Vec<&str>) -> String {
+    if titles.is_empty() {
+        return String::new();
+    }
+
     let mut toc = String::with_capacity(1024);
 
     toc.push_str("<details>");
