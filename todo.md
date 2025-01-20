@@ -10,7 +10,9 @@
 
 # External features
 
-- [ ] Table of Contents
+- [X] Table of Contents
+    - [ ] ToC with higher detail (currently only shows h2 headings), would be nice if it could show
+    ordered and unordered list items, lower headings, etc.
 - [X] Linkable headings
     - [X] Link icon
 - [ ] RSS
