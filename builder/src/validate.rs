@@ -1,15 +1,16 @@
 use std::path::Path;
 pub fn validate(path: &Path) {
     headers(path);
-    use links::relative_links;
-    relative_links(path);
+    use links::relative_file_links;
+    relative_file_links(path);
 
     use links::url_links;
     url_links(path);
+
+    // TODO implement a validator for relative internal links of the form /<post>#<Heading-Name>
 }
 
 fn headers(to: &Path) {
-    // TODO collect all errors before panicing, so it's easier to bulk fix
     use jwalk::WalkDir;
     WalkDir::new(to)
         .into_iter()
@@ -94,7 +95,7 @@ mod links {
         }
     }
 
-    pub fn relative_links(to: &Path) {
+    pub fn relative_file_links(to: &Path) {
         WalkDir::new(to)
             .into_iter()
             .filter_map(|e| e.ok())
@@ -116,7 +117,8 @@ mod links {
                                 panic!(
                                     "{}",
                                     format!(
-                                        "path {:?} from {:?} does not exist",
+                                        "relative link {:?} with path {:?} from {:?} does not exist",
+                                        link,
                                         full_path.strip_prefix(to).unwrap(),
                                         entry.path(),
                                     )
