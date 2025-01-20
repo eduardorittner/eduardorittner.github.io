@@ -1,5 +1,39 @@
 use crate::page::*;
 
+pub fn table_of_contents(source: String) -> String {
+    let header_ids: Vec<&str> = source
+        .split("<h2 id=\"")
+        .skip(1)
+        .map(|id| {
+            &id[..id.find('\"').expect(&format!(
+                "Expected a final '\"' after parsing h2 id in:\n{id}"
+            ))]
+        })
+        .collect();
+
+    format_toc(header_ids) + &source
+}
+
+pub fn format_toc(titles: Vec<&str>) -> String {
+    let mut toc = String::with_capacity(1024);
+
+    toc.push_str("<details>");
+    toc.push_str("<summary>Table of Contents</summary>");
+    toc.push_str(r##"<ul id="table-of-contents" class="section-toc">"##);
+    for title in titles {
+        let visible_title = title.replace("-", " ");
+        toc.push_str(r##"<li class="toc-entry toc-h2">"##);
+        toc.push_str(&format!(
+            r##"<a href="#{}">{}</a>"##,
+            &title, &visible_title
+        ));
+        toc.push_str("</li>");
+    }
+    toc.push_str("</ul>");
+    toc.push_str("</details>");
+    toc
+}
+
 pub fn format_header(title: &str, root: &str) -> String {
     format!(
         "<!doctype html>\

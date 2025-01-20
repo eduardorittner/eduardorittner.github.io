@@ -82,7 +82,7 @@ impl adapters::HeadingAdapter for Heading {
     }
 }
 
-pub fn to_html(content: &str) -> String {
+pub fn to_html(page: &Page) -> String {
     let mut options = Options::default();
     options.extension.front_matter_delimiter = Some("+++".to_owned());
 
@@ -99,7 +99,12 @@ pub fn to_html(content: &str) -> String {
         .build()
         .unwrap();
 
-    markdown_to_html_with_plugins(content, &options, &plugin)
+    let html = markdown_to_html_with_plugins(&page.content, &options, &plugin);
+
+    match page.category {
+        Category::Post => table_of_contents(html),
+        Category::Home | Category::Note | Category::Rambling => html,
+    }
 }
 
 pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
@@ -107,7 +112,7 @@ pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
 
     let mut html_content = format_metadata(&page.metadata);
 
-    let content = to_html(&page.content);
+    let content = to_html(&page);
 
     html_content.push_str(&content);
 
