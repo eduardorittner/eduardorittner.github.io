@@ -157,7 +157,17 @@ pub fn build(root: &Path, to: &Path) {
             .unwrap_or_default()
             .ends_with(".md")
         {
-            rss_items.push(md_file(entry.path(), to, path));
+            if entry
+                .clone()
+                .into_path()
+                .to_str()
+                .unwrap()
+                .contains("posts")
+            {
+                rss_items.push(md_file(entry.path(), to, path));
+            } else {
+                md_file(entry.path(), to, path);
+            }
         } else {
             static_file(entry.path(), path);
         }
