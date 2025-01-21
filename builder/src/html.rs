@@ -46,6 +46,8 @@ pub fn format_header(title: &str, root: &str) -> String {
     <title>{}</title> \
     <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"> \
     <link href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'> \
+    <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\"\
+    href=\"https://eduardorittner.github.io/rss.xml\">\
     <meta charset=\"UTF-8\"> \
     <script type=\"text/x-mathjax-config\"> \
     MathJax.Hub.Config({{ \
