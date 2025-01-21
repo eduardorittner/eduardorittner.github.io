@@ -15,7 +15,7 @@
     ordered and unordered list items, lower headings, etc.
 - [X] Linkable headings
     - [X] Link icon
-- [ ] RSS
+- [X] RSS
     - [ ] Autodiscovery feature (rss link in metadata of every article)
     - [ ] Link with rss image in every footer
 - [X] Syntax highlighting
@@ -30,3 +30,10 @@
 # Internal features
 
 - [ ] Parallelize tests
+- [ ] Make everything async! Mostly because validating online links takes a while so we could
+    have some sort of shared buffer where online links are pushed and a thread does the checking
+    while the files are being parsed and whatnot. Would be a fun challenge
+- [ ] RSS expects dates in rfc2822, but hugo stored them in rfc3339. For now we do the conversion
+    manually, but I would like to have some helper scripts to automatically insert the date in a
+    file, and have all the dates in rfc 2822
+- [ ] Validate rss file with any of the online rss validators

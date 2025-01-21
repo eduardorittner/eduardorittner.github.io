@@ -1,6 +1,6 @@
 +++
 title = 'Reading List'
-date = 0000-00-00
+date = 2025-01-21T01:32:18+00:00
 +++
 
 This is a list of technical articles, blog posts, videos and any other resources that I have learned from.
