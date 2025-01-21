@@ -139,7 +139,11 @@ fn parse_header(contents: &str) -> Metadata {
         .split_once('\n')
         .expect("Expected '\n' after date parameter");
 
-    metadata.date = Some(date.to_string());
+    if let Ok(date) = chrono::DateTime::parse_from_rfc3339(date) {
+        metadata.date = Some(date.to_rfc2822());
+    } else {
+        println!("invalid date: {date}")
+    }
 
     metadata
 }
