@@ -1,7 +1,9 @@
 use crate::*;
+use ::rss::Item;
 use comrak::{
     adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
+use std::fs::File;
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
@@ -107,8 +109,8 @@ pub fn to_html(page: &Page) -> String {
     }
 }
 
-pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
-    let page = Page::new(path);
+pub fn md_file(path: &Path, root: &Path, to: PathBuf) -> Item {
+    let page = Page::new(path, to.strip_prefix(root).unwrap());
 
     let mut html_content = format_metadata(&page.metadata);
 
@@ -131,12 +133,15 @@ pub fn md_file(path: &Path, root: &Path, to: PathBuf) {
 
     // Write to file
     std::fs::write(to.clone(), html).unwrap_or_else(|_| panic!("Couldn't write to file: {:?}", to));
+    new_item(&page)
 }
 
 pub fn build(root: &Path, to: &Path) {
     if !to.exists() {
         std::fs::create_dir(to).unwrap();
     }
+
+    let mut rss_items = Vec::new();
 
     for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
         let path = relative_path(entry.path(), root, to);
@@ -152,9 +157,16 @@ pub fn build(root: &Path, to: &Path) {
             .unwrap_or_default()
             .ends_with(".md")
         {
-            md_file(entry.path(), to, path);
+            rss_items.push(md_file(entry.path(), to, path));
         } else {
             static_file(entry.path(), path);
         }
     }
+
+    let rss_feed = new_rss(rss_items);
+
+    let mut rss_path = to.to_path_buf();
+    rss_path.push("rss.xml");
+    let file = File::create(&rss_path).unwrap();
+    rss_feed.pretty_write_to(&file, b' ', 2).unwrap();
 }

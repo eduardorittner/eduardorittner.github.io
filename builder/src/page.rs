@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PageKind {
@@ -35,12 +35,13 @@ pub struct Page {
     pub kind: PageKind,
     pub category: Category,
     pub metadata: Metadata,
+    pub path: PathBuf, // path relative to root
 }
 
 impl Page {
-    pub fn new(path: &Path) -> Self {
-        let content =
-            std::fs::read_to_string(path).unwrap_or_else(|_| panic!("Couldn't read file: {:?}", path));
+    pub fn new(path: &Path, link: &Path) -> Self {
+        let content = std::fs::read_to_string(path)
+            .unwrap_or_else(|_| panic!("Couldn't read file: {:?}", path));
 
         let kind = if path.ends_with("index.md")
             || path.ends_with("posts.md")
@@ -89,7 +90,24 @@ impl Page {
             category,
             content,
             metadata,
+            path: link.to_path_buf(),
         }
+    }
+
+    pub fn link(&self, root: &Path) -> String {
+        let link = "https://eduardorittner.github.io/".to_owned();
+
+        let addon = self
+            .path
+            .strip_prefix(root)
+            .expect(&format!(
+                "Couldn't find root: {root:?} in file: {:?}",
+                self.path
+            ))
+            .to_string_lossy()
+            .replace(".md", ".html");
+
+        link + &addon
     }
 }
 
