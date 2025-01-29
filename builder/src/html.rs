@@ -5,7 +5,9 @@ pub fn table_of_contents(source: String) -> String {
         .split("<h2 id=\"")
         .skip(1)
         .map(|id| {
-            &id[..id.find('\"').unwrap_or_else(|| panic!("Expected a final '\"' after parsing h2 id in:\n{id}"))]
+            &id[..id
+                .find('\"')
+                .unwrap_or_else(|| panic!("Expected a final '\"' after parsing h2 id in:\n{id}"))]
         })
         .collect();
 
