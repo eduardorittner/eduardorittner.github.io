@@ -2,6 +2,7 @@ use crate::*;
 use comrak::{
     adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
+use reqwest;
 use std::error::Error;
 use std::fs::File;
 use std::path::{Path, PathBuf};
@@ -43,17 +44,23 @@ struct RelativeLink(Link);
 #[derive(Debug)]
 pub struct UrlLink(Link);
 
+pub struct InvalidLinks(Vec<Link>);
+
 pub enum BuildError {
-    InvalidLink(Link),
-    // TODO define error from tokio::fs operations
+    InvalidLinks(InvalidLinks),
+    IoError(std::io::Error),
 }
 
 impl std::fmt::Debug for BuildError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            BuildError::InvalidLink(link) => {
-                write!(f, "Invalid link: {} from file: {:?}", link.link, link.file)
+            BuildError::InvalidLinks(links) => {
+                for link in links.0.iter() {
+                    write!(f, "Invalid link: {} from file: {:?}", link.link, link.file)?;
+                }
+                Ok(())
             }
+            BuildError::IoError(e) => write!(f, "{:?}", e),
         }
     }
 }
@@ -138,25 +145,32 @@ impl Site {
     pub async fn validate_internal_links(&self) -> Result<(), BuildError> {
         // TODO maybe return BuildError::InvalidLink(&Link) instead of cloning?
         // might matter more if we return a bunch of link errors
+
+        let mut invalid_links = InvalidLinks(Vec::new());
+
         let data = self.relative_links.lock().await;
         for item in data.iter() {
             let Link { link, file } = &item.0;
             if link.contains("#") {
                 // TODO refactor method
-                // TODO collect errors by declaring a build error variant that can contain more than 1 error
-                heading_link_exists(&item.0)
-                    .map_err(|_| BuildError::InvalidLink(item.0.clone()))?;
+                heading_link_exists(&item.0).map_err(|_| invalid_links.0.push(item.0.clone()));
             } else {
                 let path = file.parent().unwrap().join(Path::new(link));
                 if !path.exists() {
-                    return Err(BuildError::InvalidLink(item.0.clone()));
+                    panic!(
+                        "{}",
+                        format!(
+                            "ERROR: couldn't read file: {:?} which contains link: {:?}",
+                            path, link
+                        )
+                    )
                 }
             }
         }
         Ok(())
     }
 
-    async fn process_file(self: Arc<Self>, entry: &Path) {
+    async fn process_file(self: Arc<Self>, entry: &Path) -> Result<(), BuildError> {
         if entry
             .extension()
             .unwrap_or_default()
@@ -164,19 +178,21 @@ impl Site {
             .unwrap_or_default()
             == "md"
         {
-            self.process_md(entry).await;
+            self.process_md(entry).await
         } else {
-            self.process_static(entry).await;
+            self.process_static(entry).await
         }
     }
 
-    async fn process_static(self: Arc<Self>, old_path: &Path) {
-        // TODO return error
+    async fn process_static(self: Arc<Self>, old_path: &Path) -> Result<(), BuildError> {
         let new_path = self.new_path(old_path);
-        tokio::fs::copy(&old_path, &new_path).await.unwrap();
+        tokio::fs::copy(&old_path, &new_path)
+            .await
+            .map_err(|e| BuildError::IoError(e))?;
+        Ok(())
     }
 
-    async fn process_md(self: Arc<Self>, old_path: &Path) {
+    async fn process_md(self: Arc<Self>, old_path: &Path) -> Result<(), BuildError> {
         // TODO fix "publish: " with no date below title
         let new_path = self.new_path(old_path);
         let page = Page::new(old_path, new_path.strip_prefix(&self.dest).unwrap());
@@ -209,9 +225,8 @@ impl Site {
         let file_write = tokio::fs::write(&new_path, &html);
         let (_, e) = tokio::join!(links, file_write);
 
-        if e.is_err() {
-            panic!("Couldn't write to file: {:?} due to:\n{:?}", new_path, e)
-        }
+        e.map_err(|e| BuildError::IoError(e))?;
+        Ok(())
     }
 
     async fn process_links(self: Arc<Self>, source: &str, path: &Path) {

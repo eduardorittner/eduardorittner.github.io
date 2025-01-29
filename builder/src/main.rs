@@ -26,8 +26,8 @@ async fn main() {
             site.clone().build().await.unwrap();
         }
 
+        println!("Checking url links");
         // Wait for external url validator to finish before exiting
-        let b = validator.await.unwrap();
-        println!("{b:?}");
+        let _ = validator.await.unwrap();
     }
 }
