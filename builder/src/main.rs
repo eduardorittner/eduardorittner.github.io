@@ -11,8 +11,11 @@ async fn main() {
 
     if args.get(1).is_none_or(|s| s != "validate") {
         let site = Arc::new(Site::new(to, root, None));
-        // TODO handle error
-        site.build().await.unwrap();
+        if let Err(e) = site.build().await {
+            println!("ERROR: {:?}", e);
+            // Exit with an error
+            std::process::exit(1);
+        };
     } else {
         let (tx, rx) = tokio::sync::mpsc::channel(1024);
         let validator = ExternalLinkValidator(rx);
@@ -22,12 +25,17 @@ async fn main() {
         {
             let site = Arc::new(Site::new(to, root, Some(tx)));
 
-            // TODO handle errors
-            site.clone().build().await.unwrap();
+            if let Err(e) = site.clone().build().await {
+                println!("ERROR: {e:?}");
+                // Exit with an error
+                std::process::exit(1);
+            }
         }
 
         println!("Checking url links");
         // Wait for external url validator to finish before exiting
-        let _ = validator.await.unwrap();
+        if let Ok(Err(e)) = validator.await {
+            println!("ERROR: {e:?}");
+        }
     }
 }

@@ -15,20 +15,20 @@ use walkdir::WalkDir;
 pub struct ExternalLinkValidator(pub Receiver<UrlLink>);
 
 impl ExternalLinkValidator {
-    pub async fn run_validator(mut self) -> Result<(), Vec<reqwest::Error>> {
-        let mut errors: Vec<reqwest::Error> = Vec::new();
+    pub async fn run_validator(mut self) -> Result<(), BuildError> {
+        let mut errors = InvalidLinks(Vec::new());
 
         while let Some(link) = self.0.recv().await {
-            if let Err(e) = reqwest::get(link.0.link).await {
-                // TODO wrap errors with context, which file the link is from
-                errors.push(e);
+            // TODO get requests in parallel
+            if let Err(_) = reqwest::get(&link.0.link).await {
+                errors.0.push(link.0);
             }
         }
 
-        if errors.is_empty() {
+        if errors.0.is_empty() {
             Ok(())
         } else {
-            Err(errors)
+            Err(BuildError::InvalidLinks(errors))
         }
     }
 }
@@ -56,7 +56,11 @@ impl std::fmt::Debug for BuildError {
         match self {
             BuildError::InvalidLinks(links) => {
                 for link in links.0.iter() {
-                    write!(f, "Invalid link: {} from file: {:?}", link.link, link.file)?;
+                    write!(
+                        f,
+                        "\nInvalid link: {} from file: {:?}",
+                        link.link, link.file
+                    )?;
                 }
                 Ok(())
             }
@@ -163,7 +167,9 @@ impl Site {
             let Link { link, file } = &item.0;
             if link.contains("#") {
                 // TODO refactor method
-                heading_link_exists(&item.0).map_err(|_| invalid_links.0.push(item.0.clone()));
+                if let Err(_) = heading_link_exists(&item.0) {
+                    invalid_links.0.push(item.0.clone());
+                }
             } else {
                 let path = file.parent().unwrap().join(Path::new(link));
                 if !path.exists() {
@@ -299,7 +305,6 @@ fn heading_link_exists(link: &Link) -> Result<(), ()> {
         Some((file, link)) => (Path::new(file), link),
     };
 
-    // TODO return more complete error
     let contents = std::fs::read_to_string(file_path).unwrap();
 
     match contents.find(heading) {
