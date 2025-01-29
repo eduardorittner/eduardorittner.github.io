@@ -124,7 +124,6 @@ impl Site {
             if entry.file_type().is_dir() {
                 let path = self.new_path(entry.path());
                 if !path.exists() {
-                    // TODO return error
                     tokio::fs::create_dir(path)
                         .await
                         .map_err(|e| BuildError::IoError(e))?;
@@ -147,11 +146,10 @@ impl Site {
     }
 
     pub async fn publish_rss(self: Arc<Self>) -> Result<(), BuildError> {
-        // TODO handle errors
         let feed = self.rss_feed.lock().await;
         let channel = feed.build();
         let dest = self.dest.join(Path::new("rss.xml"));
-        let file = File::create(dest).unwrap();
+        let file = File::create(dest).map_err(|e| BuildError::IoError(e))?;
         channel.pretty_write_to(file, b' ', 2);
         Ok(())
     }
