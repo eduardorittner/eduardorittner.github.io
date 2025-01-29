@@ -16,7 +16,7 @@
 - [X] Linkable headings
     - [X] Link icon
 - [X] RSS
-    - [ ] Autodiscovery feature (rss link in metadata of every article)
+    - [X] Autodiscovery feature (rss link in metadata of every article)
     - [ ] Link with rss image in every footer
 - [X] Syntax highlighting
 - [ ] Vendor Mathjax script
@@ -37,3 +37,18 @@
     manually, but I would like to have some helper scripts to automatically insert the date in a
     file, and have all the dates in rfc 2822
 - [ ] Validate rss file with any of the online rss validators
+
+## Async!
+
+I want to have the core logic be all async, since we can process .md files in parallel easily,
+and the only thing that needs to run at the end are internal link validations, since we need
+to have all the generated .html files to know whether the links are valid or not. So my plan is:
+
+- Go through every file (walkdir from jwalk is already async)
+- For every .md (in parallel)
+    build the .html file (sync)
+    find all the links (add each type to its equivalent queue)
+    write to output folder
+    add to rss feed
+- While we are doing this, have a thread that consumes online links and tests them async
+- By the end, we only need to check the collected internal links
