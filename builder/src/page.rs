@@ -1,5 +1,7 @@
 use std::path::{Path, PathBuf};
 
+use chrono::FixedOffset;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PageKind {
     Index,
@@ -17,7 +19,7 @@ pub enum Category {
 #[derive(Debug, Clone)]
 pub struct Metadata {
     pub title: String,
-    pub date: Option<String>,
+    pub date: Option<chrono::DateTime<FixedOffset>>,
 }
 
 impl Default for Metadata {
@@ -100,8 +102,7 @@ impl Page {
         let addon = self
             .path
             .strip_prefix(root)
-            .unwrap_or_else(|_| panic!("Couldn't find root: {root:?} in file: {:?}",
-                self.path))
+            .unwrap_or_else(|_| panic!("Couldn't find root: {root:?} in file: {:?}", self.path))
             .to_string_lossy()
             .replace(".md", ".html");
 
@@ -142,7 +143,7 @@ fn parse_header(contents: &str) -> Metadata {
         .expect("Expected '\n' after date parameter");
 
     if let Ok(date) = chrono::DateTime::parse_from_rfc3339(date) {
-        metadata.date = Some(date.to_rfc2822());
+        metadata.date = Some(date);
     } else {
         println!("invalid date: {date}")
     }

@@ -99,8 +99,11 @@ pub fn format_metadata(metadata: &Metadata) -> String {
         </div>",
         metadata.title
     );
-    if let Some((date, _)) = metadata.date.clone().unwrap_or_default().split_once('T') {
-        let date = format!("<span class=\"date\">Published: {}</span>", date);
+    if let Some(date) = &metadata.date {
+        let date = format!(
+            "<span class=\"date\">Published: {}</span>",
+            date.format("%Y-%m-%d")
+        );
         title.push_str(&date);
     }
     title.push_str("</div>");

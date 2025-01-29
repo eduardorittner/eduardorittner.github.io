@@ -22,7 +22,7 @@ pub fn new_item(page: &Page) -> rss::Item {
         .link(link.to_owned());
 
     if let Some(date) = &page.metadata.date {
-        item.pub_date(date.clone()).build()
+        item.pub_date(date.to_rfc2822().clone()).build()
     } else {
         item.build()
     }
