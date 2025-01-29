@@ -109,6 +109,10 @@ impl Page {
 
         link + &addon
     }
+
+    pub fn is_post(&self) -> bool {
+        self.category == Category::Post && self.kind == PageKind::Article
+    }
 }
 
 fn parse_header(contents: &str) -> Metadata {

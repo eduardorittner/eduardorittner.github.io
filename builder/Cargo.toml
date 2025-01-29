@@ -15,3 +15,4 @@ rayon = {version="1.10.0", optional = true}
 jwalk = {version = "0.5", optional = true}
 rss = "2.0.11"
 chrono = "0.4.39"
+tokio = {version = "1.43.0", features = ["full"]}
