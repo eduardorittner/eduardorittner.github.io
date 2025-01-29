@@ -61,6 +61,10 @@ where we only write to the target directory after having validated all the links
 making builds atomic. This shouldn't be that hard, but might slow down builds (which are
 pretty fast for now)
 
+## Performance
+
+Would be nice to have some benchmarks, maybe using criterion
+
 ## Compilation time
 
 Cold compilation times take quite a while, more than they should. It would be nice to make
