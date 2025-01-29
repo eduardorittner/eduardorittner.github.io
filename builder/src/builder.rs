@@ -33,42 +33,6 @@ impl ExternalLinkValidator {
     }
 }
 
-#[derive(Debug, Clone)]
-struct Link {
-    link: String,
-    file: PathBuf,
-}
-
-struct RelativeLink(Link);
-
-#[derive(Debug)]
-pub struct UrlLink(Link);
-
-pub struct InvalidLinks(Vec<Link>);
-
-pub enum BuildError {
-    InvalidLinks(InvalidLinks),
-    IoError(std::io::Error),
-}
-
-impl std::fmt::Debug for BuildError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            BuildError::InvalidLinks(links) => {
-                for link in links.0.iter() {
-                    write!(
-                        f,
-                        "\nInvalid link: {} from file: {:?}",
-                        link.link, link.file
-                    )?;
-                }
-                Ok(())
-            }
-            BuildError::IoError(e) => write!(f, "{:?}", e),
-        }
-    }
-}
-
 struct GeneratedHtml {
     to: PathBuf,
     from: PathBuf,
@@ -187,23 +151,8 @@ impl Site {
 
         let data = self.relative_links.lock().await;
         for item in data.iter() {
-            let Link { link, file } = &item.0;
-            if link.contains("#") {
-                // TODO refactor method
-                if let Err(_) = heading_link_exists(&item.0) {
-                    invalid_links.0.push(item.0.clone());
-                }
-            } else {
-                let path = file.parent().unwrap().join(Path::new(link));
-                if !path.exists() {
-                    panic!(
-                        "{}",
-                        format!(
-                            "ERROR: couldn't read file: {:?} which contains link: {:?}",
-                            path, link
-                        )
-                    )
-                }
+            if let Err(_) = heading_link_exists(&item.0) {
+                invalid_links.0.push(item.0.clone());
             }
         }
         Ok(())
@@ -322,8 +271,7 @@ impl Site {
 
 fn heading_link_exists(link: &Link) -> Result<(), ()> {
     let (file_path, heading) = match link.link.split_once("#") {
-        // TODO maybe one fucntion that checks all links?
-        None => unreachable!(),
+        None => (link.file.as_path(), link.link.as_str()),
         Some((file, relative_link)) if file.is_empty() => (link.file.as_path(), relative_link),
         Some((file, link)) => (Path::new(file), link),
     };
