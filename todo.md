@@ -63,7 +63,7 @@ pretty fast for now)
 
 ## Performance
 
-Would be nice to have some benchmarks, maybe using criterion
+Benchmark performance using criterion. Seems a bit more complicated to benchmark async functions
 
 ## Compilation time
 
