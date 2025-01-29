@@ -3,7 +3,6 @@ use comrak::{
     adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
 use reqwest;
-use std::error::Error;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -18,9 +17,16 @@ impl ExternalLinkValidator {
     pub async fn run_validator(mut self) -> Result<(), BuildError> {
         let mut errors = InvalidLinks(Vec::new());
 
+        let mut requests = Vec::new();
+        let mut links = Vec::new();
+
         while let Some(link) = self.0.recv().await {
-            // TODO get requests in parallel
-            if let Err(_) = reqwest::get(&link.0.link).await {
+            links.push(link.clone());
+            requests.push(tokio::spawn(reqwest::get(link.0.link)));
+        }
+
+        for (req, link) in requests.into_iter().zip(links) {
+            if let Err(_) = req.await {
                 errors.0.push(link.0);
             }
         }
