@@ -1,14 +1,14 @@
 use crate::*;
+use async_std;
+use async_std::channel::{Receiver, Sender};
+use async_std::prelude::*;
+use async_std::sync::Mutex;
 use comrak::{
     adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
-use reqwest;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use tokio;
-use tokio::sync::mpsc::{Receiver, Sender};
-use tokio::sync::Mutex;
 use walkdir::WalkDir;
 
 pub struct ExternalLinkValidator(pub Receiver<UrlLink>);
@@ -20,9 +20,9 @@ impl ExternalLinkValidator {
         let mut requests = Vec::new();
         let mut links = Vec::new();
 
-        while let Some(link) = self.0.recv().await {
+        while let Ok(link) = self.0.recv().await {
             links.push(link.clone());
-            requests.push(tokio::spawn(reqwest::get(link.0.link)));
+            requests.push(async_std::task::spawn(surf::get(link.0.link)));
         }
 
         for (req, link) in requests.into_iter().zip(links) {
@@ -90,10 +90,10 @@ impl Site {
     }
 
     pub async fn build_with_url_validator(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
-        let (tx, rx) = tokio::sync::mpsc::channel(1024);
+        let (tx, rx) = async_std::channel::unbounded();
         let validator = ExternalLinkValidator(rx);
         // TODO handle error
-        let validator = tokio::spawn(validator.run_validator());
+        let validator = async_std::task::spawn(validator.run_validator());
 
         {
             Site::build(dest, root, Some(tx)).await?;
@@ -101,7 +101,7 @@ impl Site {
 
         println!("Checking url links");
         // Wait for external url validator to finish before exiting
-        validator.await.unwrap()
+        validator.await
     }
 
     pub async fn build(
@@ -113,7 +113,7 @@ impl Site {
         println!("Starting build");
 
         if !site.dest.exists() {
-            tokio::fs::create_dir(&site.dest)
+            async_std::fs::create_dir(&site.dest)
                 .await
                 .map_err(|e| BuildError::IoError(e))?;
         }
@@ -122,7 +122,7 @@ impl Site {
             if entry.file_type().is_dir() {
                 let path = site.new_path(entry.path());
                 if !path.exists() {
-                    tokio::fs::create_dir(path)
+                    async_std::fs::create_dir(path)
                         .await
                         .map_err(|e| BuildError::IoError(e))?;
                 }
@@ -180,7 +180,7 @@ impl Site {
 
     async fn process_static(self: Arc<Self>, old_path: &Path) -> Result<(), BuildError> {
         let new_path = self.new_path(old_path);
-        tokio::fs::copy(&old_path, &new_path)
+        async_std::fs::copy(&old_path, &new_path)
             .await
             .map_err(|e| BuildError::IoError(e))?;
         Ok(())
@@ -188,7 +188,8 @@ impl Site {
 
     async fn process_md(self: Arc<Self>, old_path: &Path) -> Result<(), BuildError> {
         // TODO fix "publish: " with no date below title
-        let new_path = self.new_path(old_path);
+        let mut new_path = self.new_path(old_path);
+        new_path.set_extension("html");
         let page = Page::new(old_path, new_path.strip_prefix(&self.dest).unwrap());
 
         if page.is_post() {
@@ -216,8 +217,8 @@ impl Site {
         let html = html_header + &html_navbar + &html_content + &html_footer;
 
         let links = self.clone().process_links(&html, &new_path);
-        let file_write = tokio::fs::write(&new_path, &html);
-        let (_, e) = tokio::join!(links, file_write);
+        let file_write = async_std::fs::write(&new_path, &html);
+        let (_, e) = links.join(file_write).await;
 
         e.map_err(|e| BuildError::IoError(e))?;
         Ok(())
@@ -263,15 +264,8 @@ impl Site {
     }
 
     fn new_path(&self, path: &Path) -> PathBuf {
-        let new_path = path
-            .to_str()
-            .unwrap_or_default()
-            .trim_start_matches(self.root.to_str().unwrap_or_default())
-            .strip_prefix("/") // Strip '/' because of .join behavior on absolute paths
-            .unwrap_or_default()
-            .replace(".md", ".html")
-            .to_string();
-        self.dest.join(Path::new(&new_path))
+        let new_path = path.strip_prefix(&self.root).unwrap().to_owned();
+        self.dest.join(&new_path)
     }
 }
 
