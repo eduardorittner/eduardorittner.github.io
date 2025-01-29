@@ -1,5 +1,4 @@
 use builder::builder::{ExternalLinkValidator, Site};
-use std::env;
 use std::{path::PathBuf, sync::Arc};
 use tokio;
 

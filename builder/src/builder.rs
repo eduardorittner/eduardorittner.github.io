@@ -1,5 +1,4 @@
 use crate::*;
-use ::rss::{ChannelBuilder, Item};
 use comrak::{
     adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
 };
@@ -8,10 +7,8 @@ use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tokio;
-use tokio::io::AsyncReadExt;
-use tokio::sync::mpsc::{self, Receiver, Sender};
+use tokio::sync::mpsc::{Receiver, Sender};
 use tokio::sync::Mutex;
-use walkdir::DirEntry;
 use walkdir::WalkDir;
 
 pub struct ExternalLinkValidator(pub Receiver<UrlLink>);

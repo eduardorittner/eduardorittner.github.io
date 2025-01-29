@@ -1,7 +1,5 @@
 use crate::Page;
 use rss::{ChannelBuilder, ItemBuilder};
-use std::fs::File;
-use std::path::Path;
 
 pub fn new_rss(items: Vec<rss::Item>) -> rss::Channel {
     ChannelBuilder::default()
