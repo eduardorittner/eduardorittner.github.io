@@ -155,9 +155,6 @@ impl Site {
     }
 
     pub async fn validate_internal_links(&self) -> Result<(), BuildError> {
-        // TODO maybe return BuildError::InvalidLink(&Link) instead of cloning?
-        // might matter more if we return a bunch of link errors
-
         let mut invalid_links = InvalidLinks(Vec::new());
 
         let data = self.relative_links.lock().await;
