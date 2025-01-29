@@ -90,6 +90,14 @@ pub struct Site {
     url_links: Option<Arc<Mutex<Sender<UrlLink>>>>,
 }
 
+impl Default for Site {
+    fn default() -> Self {
+        let root = PathBuf::from("../src");
+        let to = PathBuf::from("../output");
+        Site::new(to, root, None)
+    }
+}
+
 impl Site {
     pub fn new(dest: PathBuf, root: PathBuf, url_sender: Option<Sender<UrlLink>>) -> Self {
         Self {
@@ -111,34 +119,54 @@ impl Site {
         }
     }
 
-    pub async fn build(self: Arc<Self>) -> Result<(), BuildError> {
+    pub async fn build_with_url_validator(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
+        let (tx, rx) = tokio::sync::mpsc::channel(1024);
+        let validator = ExternalLinkValidator(rx);
+        // TODO handle error
+        let validator = tokio::spawn(validator.run_validator());
+
+        {
+            Site::build(dest, root, Some(tx)).await?;
+        }
+
+        println!("Checking url links");
+        // Wait for external url validator to finish before exiting
+        validator.await.unwrap()
+    }
+
+    pub async fn build(
+        dest: PathBuf,
+        root: PathBuf,
+        url_sender: Option<Sender<UrlLink>>,
+    ) -> Result<(), BuildError> {
+        let site = Arc::new(Site::new(dest, root, url_sender));
         println!("Starting build");
 
-        if !self.dest.exists() {
-            tokio::fs::create_dir(&self.dest)
+        if !site.dest.exists() {
+            tokio::fs::create_dir(&site.dest)
                 .await
                 .map_err(|e| BuildError::IoError(e))?;
         }
 
-        for entry in WalkDir::new(&self.root).into_iter().filter_map(|e| e.ok()) {
+        for entry in WalkDir::new(&site.root).into_iter().filter_map(|e| e.ok()) {
             if entry.file_type().is_dir() {
-                let path = self.new_path(entry.path());
+                let path = site.new_path(entry.path());
                 if !path.exists() {
                     tokio::fs::create_dir(path)
                         .await
                         .map_err(|e| BuildError::IoError(e))?;
                 }
             } else {
-                self.clone().process_file(entry.path()).await?;
+                site.clone().process_file(entry.path()).await?;
             }
         }
 
-        self.clone().publish_rss().await?;
+        site.clone().publish_rss().await?;
         println!("Done building");
 
         println!("Checking internal links");
 
-        self.validate_internal_links().await?;
+        site.validate_internal_links().await?;
 
         println!("Internal links OK");
 
