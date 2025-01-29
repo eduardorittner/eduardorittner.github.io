@@ -14,7 +14,7 @@ use walkdir::WalkDir;
 pub struct ExternalLinkValidator(pub Receiver<UrlLink>);
 
 impl ExternalLinkValidator {
-    pub async fn run_validator(mut self: Self) -> Result<(), Vec<reqwest::Error>> {
+    pub async fn run_validator(mut self) -> Result<(), Vec<reqwest::Error>> {
         let mut errors: Vec<reqwest::Error> = Vec::new();
 
         while let Some(link) = self.0.recv().await {
@@ -135,7 +135,7 @@ impl Site {
         Ok(())
     }
 
-    pub async fn validate_internal_links(self: &Self) -> Result<(), BuildError> {
+    pub async fn validate_internal_links(&self) -> Result<(), BuildError> {
         // TODO maybe return BuildError::InvalidLink(&Link) instead of cloning?
         // might matter more if we return a bunch of link errors
         let data = self.relative_links.lock().await;

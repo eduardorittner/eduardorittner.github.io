@@ -100,10 +100,8 @@ impl Page {
         let addon = self
             .path
             .strip_prefix(root)
-            .expect(&format!(
-                "Couldn't find root: {root:?} in file: {:?}",
-                self.path
-            ))
+            .unwrap_or_else(|_| panic!("Couldn't find root: {root:?} in file: {:?}",
+                self.path))
             .to_string_lossy()
             .replace(".md", ".html");
 
