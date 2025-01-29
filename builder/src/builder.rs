@@ -108,9 +108,12 @@ impl Site {
     }
 
     pub async fn build(self: Arc<Self>) -> Result<(), BuildError> {
-        // TODO print what we are doing
+        println!("Starting build");
+
         if !self.dest.exists() {
-            tokio::fs::create_dir(&self.dest).await.unwrap();
+            tokio::fs::create_dir(&self.dest)
+                .await
+                .map_err(|e| BuildError::IoError(e))?;
         }
 
         for entry in WalkDir::new(&self.root).into_iter().filter_map(|e| e.ok()) {
@@ -118,17 +121,24 @@ impl Site {
                 let path = self.new_path(entry.path());
                 if !path.exists() {
                     // TODO return error
-                    tokio::fs::create_dir(path).await.unwrap();
+                    tokio::fs::create_dir(path)
+                        .await
+                        .map_err(|e| BuildError::IoError(e))?;
                 }
             } else {
-                self.clone().process_file(entry.path()).await;
+                self.clone().process_file(entry.path()).await?;
             }
         }
 
-        self.validate_internal_links().await.unwrap();
-        // TODO handle errors
-        self.publish_rss().await.unwrap();
-        println!("done building");
+        self.clone().publish_rss().await?;
+        println!("Done building");
+
+        println!("Checking internal links");
+
+        self.validate_internal_links().await?;
+
+        println!("Internal links OK");
+
         Ok(())
     }
 
