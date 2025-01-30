@@ -34,5 +34,9 @@ pub fn build_url_benchmark(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, build_benchmark, build_url_benchmark);
+criterion_group!(
+    name = benches;
+    config = Criterion::default().sample_size(10);
+    targets =  build_benchmark, build_url_benchmark
+);
 criterion_main!(benches);

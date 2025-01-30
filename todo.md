@@ -63,7 +63,10 @@ pretty fast for now)
 
 ## Performance
 
-Benchmark performance using criterion. Seems a bit more complicated to benchmark async functions
+Benchmark performance using criterion.
+
+- Site::build (async_std) -> 60ms to 70ms
+- Site::build_with_url_validator (async_std + surf) -> 3.25s
 
 ## Compilation time
 
@@ -72,5 +75,5 @@ them faster, probably by trimming some dependencies. The rss dependency, for exa
 quite a lot of proc_macros which must be eating up a lot of the compilation time, and since
 I only use some specific rss features, I could do it myself pretty easily.
 
-A full build takes 90 seconds, and biggest compilation offenders are tokio and comrak.
-Not surprising
+A full build takes around 90 seconds, and biggest compilation offenders is comrak, which
+pulls a lot of dependencies, like serde_derive and some parser stuff.
