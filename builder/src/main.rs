@@ -9,7 +9,7 @@ fn main() {
     let to = PathBuf::from("../output");
 
     if args.get(1).is_none_or(|s| s != "validate") {
-        if let Err(e) = task::block_on(Site::build(to, root, None)) {
+        if let Err(e) = task::block_on(Site::build(to, root)) {
             println!("ERROR: {:?}", e);
             std::process::exit(1);
         };
