@@ -5,7 +5,7 @@ use builder::builder::Site;
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn build(from: PathBuf, to: PathBuf) {
-    task::block_on(Site::build(to, from, None)).unwrap();
+    task::block_on(Site::build(to, from)).unwrap();
 }
 
 pub fn build_benchmark(c: &mut Criterion) {
