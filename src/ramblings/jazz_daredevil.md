@@ -1,7 +1,7 @@
 +++
 title = 'Jazz_daredevil'
 date = 2024-08-04T03:26:37Z
-draft = true
+draft = false
 +++
 
 ## Introduction

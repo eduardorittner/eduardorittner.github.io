@@ -21,6 +21,7 @@ pub enum Category {
 pub struct Metadata {
     pub title: String,
     pub date: Option<chrono::DateTime<FixedOffset>>,
+    pub draft: bool,
 }
 
 impl Default for Metadata {
@@ -28,6 +29,7 @@ impl Default for Metadata {
         Metadata {
             title: "Homepage".to_string(),
             date: None,
+            draft: false,
         }
     }
 }
@@ -88,6 +90,7 @@ impl Page {
                 Metadata {
                     title: title.to_string(),
                     date: None,
+                    draft: false,
                 }
             }
         };
@@ -143,7 +146,7 @@ fn parse_header(contents: &str) -> Metadata {
         .strip_prefix("date = ")
         .expect("Expected 'date = ' after title declaration");
 
-    let (date, _) = date_start
+    let (date, rest) = date_start
         .split_once('\n')
         .expect("Expected '\n' after date parameter");
 
@@ -152,6 +155,17 @@ fn parse_header(contents: &str) -> Metadata {
     } else {
         println!("invalid date: {date}")
     }
+
+    let (draft, _) = if let Some(draft) = rest.strip_prefix("draft = ") {
+        let (draft, _) = draft
+            .split_once("\n")
+            .expect("Expected newline after 'draft'");
+        (draft == "true", ())
+    } else {
+        (false, ())
+    };
+
+    metadata.draft = draft;
 
     metadata
 }

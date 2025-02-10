@@ -251,6 +251,10 @@ impl Site {
         new_path.set_extension("html");
         let page = Page::new(old_path, new_path.strip_prefix(&self.dest).unwrap());
 
+        if page.metadata.draft {
+            return Ok(());
+        }
+
         if page.is_post() {
             let mut feed = self.rss_feed.lock().await;
             feed.item(new_item(&page));
