@@ -29,6 +29,35 @@ article {
 	padding-bottom: 10px;
 }
 
+blockquote {
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-left: 4px solid #ddd;
+  color: #999;
+  font-style: italic;
+  font-family: Georgia, serif;
+  line-height: 1.6;
+  position: relative;
+}
+
+blockquote::before {
+  content: "\201C";
+  color: #ddd;
+  font-size: 3em;
+  position: absolute;
+  left: 10px;
+  top: -0.1em;
+}
+
+blockquote::after {
+  content: "\201D";
+  color: #ddd;
+  font-size: 3em;
+  position: absolute;
+  right: 10px;
+  bottom: -0.5em;
+}
+
 .heading-container {
 	display: flex;
 	justify-content: space-between;
