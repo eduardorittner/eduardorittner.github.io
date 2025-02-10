@@ -7,6 +7,8 @@ I'm currently interested in programming language and compiler design and operati
 
 - [Notes](notes/notes.html) where I write small technical notes.
 
+- [Links](links/links.html) where I collect noteworthy links along with my thoughts on them.
+
 - [Ramblings](ramblings/ramblings.html) where I write whatever comes to mind whenever.
 
 - [Reading](reading.html) where I keep a list of blogs, posts and videos I enjoy.

@@ -277,6 +277,12 @@ impl Site {
         self.clone().process_links(&html, &new_path).await;
 
         let mut data = self.pages.lock().await;
+
+        // NOTE .canonicalize() errors if new_path doesn't exist
+        if !new_path.exists() {
+            let _ = async_std::fs::write(new_path.clone(), "").await;
+        }
+
         data.insert(
             new_path.canonicalize().unwrap().to_path_buf(),
             GeneratedHtml {

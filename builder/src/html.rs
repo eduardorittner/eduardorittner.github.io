@@ -67,11 +67,13 @@ pub fn format_navbar(prefix: &str, kind: Category) -> String {
     let mut home = "";
     let mut post = "";
     let mut note = "";
+    let mut link = "";
 
     match kind {
         Category::Home => home = "active",
         Category::Post => post = "active",
         Category::Note => note = "active",
+        Category::Link => link = "active",
         _ => (),
     }
 
@@ -81,6 +83,7 @@ pub fn format_navbar(prefix: &str, kind: Category) -> String {
         <a href=\"{prefix}index.html\" class=\"{home}\">Home</a>\
         <a href=\"{prefix}posts/posts.html\" class=\"{post}\">Posts</a>\
         <a href=\"{prefix}notes/notes.html\" class=\"{note}\">Notes</a>\
+        <a href=\"{prefix}links/links.html\" class=\"{link}\">Links</a>\
         </div>
         "
     )

@@ -13,6 +13,7 @@ pub enum Category {
     Home,
     Post,
     Note,
+    Link,
     Rambling,
 }
 
@@ -48,6 +49,7 @@ impl Page {
         let kind = if path.ends_with("index.md")
             || path.ends_with("posts.md")
             || path.ends_with("notes.md")
+            || path.ends_with("links.md")
             || path.ends_with("ramblings.md")
         {
             PageKind::Index
@@ -64,6 +66,8 @@ impl Page {
                 Category::Rambling
             } else if path.ends_with("src/") {
                 Category::Home
+            } else if path.ends_with("links/") {
+                Category::Link
             } else {
                 unreachable!()
             }
@@ -78,6 +82,7 @@ impl Page {
                     Category::Home => "Homepage",
                     Category::Post => "Posts",
                     Category::Note => "Notes",
+                    Category::Link => "Links",
                     Category::Rambling => "Ramblings",
                 };
                 Metadata {
