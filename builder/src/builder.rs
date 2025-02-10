@@ -236,8 +236,9 @@ impl Site {
     async fn process_static(self: Arc<Self>, old_path: &Path) {
         let new_path = self.new_path(old_path);
         let mut data = self.assets.lock().await;
+
         data.insert(
-            new_path.canonicalize().unwrap().to_path_buf(),
+            canonical(&new_path),
             AssetFile {
                 to: new_path,
                 from: old_path.to_owned(),
@@ -278,13 +279,8 @@ impl Site {
 
         let mut data = self.pages.lock().await;
 
-        // NOTE .canonicalize() errors if new_path doesn't exist
-        if !new_path.exists() {
-            let _ = async_std::fs::write(new_path.clone(), "").await;
-        }
-
         data.insert(
-            new_path.canonicalize().unwrap().to_path_buf(),
+            canonical(&new_path),
             GeneratedHtml {
                 to: new_path.to_owned(),
                 from: old_path.to_owned(),
@@ -344,7 +340,7 @@ impl Site {
             None => (Path::new(&link.link), ""),
             // Link is only heading (file is the current one)
             Some((file, heading)) if file.is_empty() => {
-                let path = Path::new(&link.file).canonicalize().unwrap();
+                let path = canonical(Path::new(&link.file));
                 if let Some(page) = pages.get(&path) {
                     return match page.content.find(heading) {
                         None => Err(()),
@@ -360,7 +356,7 @@ impl Site {
 
         let path_to_linker = self.root.join(link.file.parent().unwrap());
         let path_to_linkee = path_to_linker.join(file_path);
-        let abs_path = path_to_linkee.canonicalize().map_err(|_| ())?;
+        let abs_path = canonical(&path_to_linkee);
 
         if let Some(page) = pages.get(&abs_path) {
             match page.content.find(heading) {
@@ -383,22 +379,12 @@ impl Site {
     }
 }
 
-fn heading_link_exists(link: &Link) -> Result<(), ()> {
-    let (file_path, heading) = match link.link.split_once("#") {
-        // Relative link to a file
-        None => (link.file.as_path(), ""),
-        // Relative link inside file
-        Some((file, relative_link)) if file.is_empty() => (link.file.as_path(), relative_link),
-        // Relative link to other file with heading '#'
-        Some((file, link)) => (Path::new(file), link),
+fn canonical(path: &Path) -> PathBuf {
+    if !path.exists() {
+        let _ = std::fs::write(path, "");
     };
 
-    let contents = std::fs::read_to_string(file_path).unwrap();
-
-    match contents.find(heading) {
-        None => Err(()),
-        Some(_) => Ok(()),
-    }
+    path.canonicalize().unwrap()
 }
 
 struct Heading;
