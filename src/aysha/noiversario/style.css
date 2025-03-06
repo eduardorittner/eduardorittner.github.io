@@ -1,0 +1,50 @@
+:root {
+  --pink-primary: #ff69b4;
+  --pink-secondary: #ffb6c1;
+  --white: #ffffff;
+  --black: #000000;
+  --light-gray: #f2f2f2;
+  --dark-gray: #808080;
+}
+
+html, body {
+    background-color: var(--pink-secondary);
+    color: var(--pink-secondary);
+}
+
+html {
+  font-size: 3em;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+img {
+    width: 80vw; /* 100% of the viewport height */
+    object-fit: cover;
+    margin: auto;
+}
+
+
+input {
+  font-size: 1em;
+  margin-left: 20px;
+}
+
+button {
+  font-size: 1em;
+  margin-left: 20px;
+}
+
+
+div, p, h1, figcaption {
+  color: var(--black);
+}
+
+
