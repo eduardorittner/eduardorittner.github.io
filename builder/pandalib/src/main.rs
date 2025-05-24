@@ -1,5 +1,5 @@
 use async_std::task;
-use pandalib::builder::{ExternalLinkValidator, Site};
+use builder::builder::{ExternalLinkValidator, Site};
 use std::{path::PathBuf, sync::Arc};
 
 fn main() {
