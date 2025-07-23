@@ -1,7 +1,7 @@
 [package]
 name = "pandalib"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 comrak = { version = "0.29.0", default-features = false, features = ["syntect"] }
