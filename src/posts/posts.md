@@ -1,5 +1,6 @@
 # Blog Posts
 
+* [Building Systems, Simply by Matklad](building-systems-simply.html)
 * [Boring tech as (less) theory building](boring-tech-as-theory-building.html)
 * [Building my own Static Site Generator in Rust](blog-todos.html)
 * [How to solve dynamic programming problems](dynamic-programming.html)

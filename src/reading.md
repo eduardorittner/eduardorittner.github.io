@@ -37,9 +37,11 @@ I read a lot of technical blogs, most of these have an RSS feed
 
 ## Videos
 
+- [Building Systems, Simply by Matklad](https://www.youtube.com/watch?v=jVC4DP-8xLM&list=WL&index=36&t=11s) real life tales of incidental and inherent complexity in software engineering and architecture.
 - [Crust of Rust: Atomics and Memory Ordering](https://www.youtube.com/watch?v=rMGWeSjctlY&list=PL0d6Tmk0lUnVnZFvG_KVDlmtRaofZ21Gb&index=8&ab_channel=JonGjengset) on Atomics in Memory Ordering in modern CPUs, applied to both the C++ and Rust memory model.
 - [How the stack got stacked](https://www.youtube.com/watch?v=2vBVvQTTdXg&list=PL0d6Tmk0lUnVnZFvG_KVDlmtRaofZ21Gb&index=6&ab_channel=KayLack) on the history of the stack as a data structure. It's really rare to find approachable resources on computer science history. Also kind of mind blowing how at one point in time recursion was thought to be a purely theoretical construct, and how the solution to that was so incredibly simple, but revolutionary.
 
 # Books
 
+- [Writing a C Compiler](https://nostarch.com/writing-c-compiler) by Nora Sandlers. Gives a piecemeal approach to building a working c compiler from scratch.
 - [Crafting Interpreters](https://craftinginterpreters.com/) on, you guessed it, interpreters. The book builds a compiler + VM step by step, and is a great resource for those wanting to get started with programming languages.
