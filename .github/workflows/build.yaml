@@ -1,0 +1,17 @@
+# Workflow for building the site but not publishing
+name: Build site
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: cargo run
+        run: |
+          cd builder
+          cargo run --no-default-features
