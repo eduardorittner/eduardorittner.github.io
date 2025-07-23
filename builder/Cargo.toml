@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-async-std = {version = "1.13.0", features = ["unstable"]}
 pandalib = {path = "./pandalib"}
 
 [build]
