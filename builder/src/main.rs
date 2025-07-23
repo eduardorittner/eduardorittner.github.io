@@ -1,11 +1,9 @@
 use pandalib::builder::Site;
-use std::{path::PathBuf, sync::Arc};
+use std::path::PathBuf;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
     let root = PathBuf::from("../src");
     let to = PathBuf::from("../output");
 
-    Site::build(to, root);
+    let _ = Site::build(to, root);
 }

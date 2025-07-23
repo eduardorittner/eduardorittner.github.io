@@ -60,8 +60,8 @@ impl Site {
     pub fn build(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
         let mut site = Site::new(dest, root, None);
 
-        site.generate();
-        site.validate_internal_links();
+        site.generate().unwrap();
+        let _ = site.validate_internal_links();
 
         site.commit_build()
     }
@@ -81,7 +81,7 @@ impl Site {
                     std::fs::create_dir(path).map_err(|e| BuildError::IoError(e))?;
                 }
             } else {
-                self.process_file(entry.path());
+                let _ = self.process_file(entry.path());
             }
         }
         Ok(())
@@ -90,14 +90,14 @@ impl Site {
     /// Writes all the changes to the filesystem.
     pub fn commit_build(&mut self) -> Result<(), BuildError> {
         println!("Commiting changes");
-        self.publish_rss();
+        self.publish_rss().unwrap();
 
         self.pages.iter().for_each(|(_path, content)| {
-            std::fs::write(&content.to, &content.content);
+            std::fs::write(&content.to, &content.content).unwrap();
         });
 
         self.assets.iter().for_each(|(_path, asset)| {
-            std::fs::copy(&asset.from, &asset.to);
+            std::fs::copy(&asset.from, &asset.to).unwrap();
         });
 
         Ok(())
@@ -107,7 +107,7 @@ impl Site {
         let channel = self.rss_feed.build();
         let dest = self.dest.join(Path::new("rss.xml"));
         let file = File::create(dest).map_err(|e| BuildError::IoError(e))?;
-        channel.pretty_write_to(file, b' ', 2);
+        channel.pretty_write_to(file, b' ', 2).unwrap();
         Ok(())
     }
 
@@ -219,7 +219,17 @@ impl Site {
 
                 match link {
                     // TODO: Do we still need to external links?
-                    external if link.contains("http") => (),
+                    external if link.contains("http") => {
+                        let link = UrlLink(Link {
+                            link: external.to_owned(),
+                            file: path.to_path_buf(),
+                        });
+
+                        match self.url_links.as_mut() {
+                            None => self.url_links = Some(vec![link]),
+                            Some(links) => links.push(link),
+                        }
+                    }
                     internal => {
                         self.relative_links.push(RelativeLink(Link {
                             link: internal.to_owned(),
