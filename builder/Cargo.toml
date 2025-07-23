@@ -1,8 +1,15 @@
 [package]
 name = "panda"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 async-std = {version = "1.13.0", features = ["unstable"]}
 pandalib = {path = "./pandalib"}
+
+[build]
+rustflags = ["-Z", "threads=8"]
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-Zcodegen-backend=cranelift"]
+
