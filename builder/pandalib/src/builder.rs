@@ -1,45 +1,11 @@
 use crate::*;
-use async_std;
-use async_std::channel::{Receiver, Sender};
-use async_std::prelude::*;
-use async_std::sync::Mutex;
-use async_std::task::spawn;
 use comrak::{
-    adapters, markdown_to_html_with_plugins, plugins, Options, PluginsBuilder, RenderPluginsBuilder,
+    Options, PluginsBuilder, RenderPluginsBuilder, adapters, markdown_to_html_with_plugins, plugins,
 };
 use std::collections::HashMap;
 use std::fs::File;
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use walkdir::WalkDir;
-
-pub struct ExternalLinkValidator(pub Receiver<UrlLink>);
-
-impl ExternalLinkValidator {
-    pub async fn run_validator(mut self) -> Result<(), BuildError> {
-        let mut errors = InvalidLinks(Vec::new());
-
-        let mut requests = Vec::new();
-        let mut links = Vec::new();
-
-        while let Ok(link) = self.0.recv().await {
-            links.push(link.clone());
-            requests.push(async_std::task::spawn(surf::get(link.0.link)));
-        }
-
-        for (req, link) in requests.into_iter().zip(links) {
-            if let Err(_) = req.await {
-                errors.0.push(link.0);
-            }
-        }
-
-        if errors.0.is_empty() {
-            Ok(())
-        } else {
-            Err(BuildError::InvalidLinks(errors))
-        }
-    }
-}
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct GeneratedHtml {
@@ -55,13 +21,13 @@ struct AssetFile {
 }
 
 pub struct Site {
-    dest: PathBuf,                                      // Path to dest dir
-    root: PathBuf,                                      // Path to root dir
-    assets: Arc<Mutex<HashMap<PathBuf, AssetFile>>>,    // Key is the new path
-    pages: Arc<Mutex<HashMap<PathBuf, GeneratedHtml>>>, // Key is the new path
-    rss_feed: Arc<Mutex<::rss::ChannelBuilder>>,
-    relative_links: Arc<Mutex<Vec<RelativeLink>>>,
-    url_links: Option<Arc<Mutex<Sender<UrlLink>>>>,
+    dest: PathBuf,                          // Path to dest dir
+    root: PathBuf,                          // Path to root dir
+    assets: HashMap<PathBuf, AssetFile>,    // Key is the new path
+    pages: HashMap<PathBuf, GeneratedHtml>, // Key is the new path
+    rss_feed: ::rss::ChannelBuilder,
+    relative_links: Vec<RelativeLink>,
+    url_links: Option<Vec<UrlLink>>,
 }
 
 impl Default for Site {
@@ -73,140 +39,86 @@ impl Default for Site {
 }
 
 impl Site {
-    pub fn new(dest: PathBuf, root: PathBuf, url_sender: Option<Sender<UrlLink>>) -> Self {
+    pub fn new(dest: PathBuf, root: PathBuf, url_sender: Option<Vec<UrlLink>>) -> Self {
         Self {
             dest,
             root,
-            assets: Arc::new(Mutex::new(HashMap::new())),
-            pages: Arc::new(Mutex::new(HashMap::new())),
-            relative_links: Arc::new(Mutex::new(Vec::new())),
-            url_links: url_sender.map(|s| Arc::new(Mutex::new(s))),
-            rss_feed: Arc::new(Mutex::new(
-                ::rss::ChannelBuilder::default()
-                    .title("Eduardo's blog")
-                    .link("https://eduardorittner.github.io")
-                    .description("My blog")
-                    .language("en-us".to_owned())
-                    .docs("https://www.rssboard.org/rss-specification".to_owned())
-                    .to_owned(),
-            )),
+            assets: HashMap::new(),
+            pages: HashMap::new(),
+            relative_links: Vec::new(),
+            url_links: url_sender,
+            rss_feed: ::rss::ChannelBuilder::default()
+                .title("Eduardo's blog")
+                .link("https://eduardorittner.github.io")
+                .description("My blog")
+                .language("en-us".to_owned())
+                .docs("https://www.rssboard.org/rss-specification".to_owned())
+                .to_owned(),
         }
     }
 
-    pub async fn build_with_url_validator(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
-        let (tx, rx) = async_std::channel::unbounded();
-        let validator = ExternalLinkValidator(rx);
-        // TODO handle error
-        let validator = async_std::task::spawn(validator.run_validator());
+    pub fn build(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
+        let mut site = Site::new(dest, root, None);
 
-        let site = Arc::new(Site::new(dest, root, Some(tx)));
-        site.clone().generate().await?;
-        site.validate_internal_links().await?;
+        site.generate();
+        site.validate_internal_links();
 
-        println!("Checking url links");
-
-        let mut site = Arc::try_unwrap(site).ok().unwrap();
-        // Drop the sender to close the channel
-        site.url_links = None;
-
-        // Wait for external url validator to finish before exiting
-        validator.await?;
-
-        site.commit_build().await
-    }
-
-    pub async fn build(dest: PathBuf, root: PathBuf) -> Result<(), BuildError> {
-        let site = Arc::new(Site::new(dest, root, None));
-
-        site.clone().generate().await?;
-        site.validate_internal_links().await?;
-
-        let site = Arc::try_unwrap(site).ok().unwrap();
-
-        site.commit_build().await
+        site.commit_build()
     }
 
     /// Generates all html pages and validates internal links
-    pub async fn generate(self: Arc<Self>) -> Result<(), BuildError> {
+    pub fn generate(&mut self) -> Result<(), BuildError> {
         println!("Starting build");
 
         if !self.dest.exists() {
-            async_std::fs::create_dir(&self.dest)
-                .await
-                .map_err(|e| BuildError::IoError(e))?;
+            std::fs::create_dir(&self.dest).map_err(|e| BuildError::IoError(e))?;
         }
 
         for entry in WalkDir::new(&self.root).into_iter().filter_map(|e| e.ok()) {
             if entry.file_type().is_dir() {
                 let path = self.new_path(entry.path());
                 if !path.exists() {
-                    async_std::fs::create_dir(path)
-                        .await
-                        .map_err(|e| BuildError::IoError(e))?;
+                    std::fs::create_dir(path).map_err(|e| BuildError::IoError(e))?;
                 }
             } else {
-                self.clone().process_file(entry.path()).await?;
+                self.process_file(entry.path());
             }
         }
         Ok(())
     }
 
     /// Writes all the changes to the filesystem.
-    /// This method should be called with only one `Site` instance alive
-    /// since it takes ownership of the internal `Vec`s of `GeneratedHtml`
-    /// and `AssetFile`s, as well as drops the `Site` instance upon exit.
-    pub async fn commit_build(mut self: Self) -> Result<(), BuildError> {
+    pub fn commit_build(&mut self) -> Result<(), BuildError> {
         println!("Commiting changes");
-        self.publish_rss().await?;
+        self.publish_rss();
 
-        let pages = Arc::try_unwrap(self.pages)
-            .ok()
-            .expect("There should only be 1 instance of `Site` at this point")
-            .into_inner();
+        self.pages.iter().for_each(|(_path, content)| {
+            std::fs::write(&content.to, &content.content);
+        });
 
-        let assets = Arc::try_unwrap(self.assets)
-            .ok()
-            .expect("There should only be 1 instance of `Site` at this point")
-            .into_inner();
-
-        let page_jobs: Vec<_> = pages
-            .into_iter()
-            .map(|(_, page)| spawn(async_std::fs::write(page.to, page.content.clone())))
-            .collect();
-
-        let asset_jobs: Vec<_> = assets
-            .into_iter()
-            .map(|(_, asset)| spawn(async_std::fs::copy(asset.from.clone(), asset.to.clone())))
-            .collect();
-
-        for job in page_jobs {
-            job.await.map_err(|e| BuildError::IoError(e))?;
-        }
-
-        for job in asset_jobs {
-            job.await.map_err(|e| BuildError::IoError(e))?;
-        }
+        self.assets.iter().for_each(|(_path, asset)| {
+            std::fs::copy(&asset.from, &asset.to);
+        });
 
         Ok(())
     }
 
-    pub async fn publish_rss(self: &mut Self) -> Result<(), BuildError> {
-        let feed = self.rss_feed.lock().await;
-        let channel = feed.build();
+    pub fn publish_rss(self: &mut Self) -> Result<(), BuildError> {
+        let channel = self.rss_feed.build();
         let dest = self.dest.join(Path::new("rss.xml"));
         let file = File::create(dest).map_err(|e| BuildError::IoError(e))?;
         channel.pretty_write_to(file, b' ', 2);
         Ok(())
     }
 
-    pub async fn validate_internal_links(&self) -> Result<(), BuildError> {
+    pub fn validate_internal_links(&self) -> Result<(), BuildError> {
         println!("Validating internal links");
 
         let mut invalid_links = InvalidLinks(Vec::new());
 
-        let data = self.relative_links.lock().await;
+        let data = &self.relative_links;
         for item in data.iter() {
-            if let Err(_) = self.heading_link_exists(&item.0).await {
+            if let Err(_) = self.heading_link_exists(&item.0) {
                 invalid_links.0.push(item.0.clone());
             }
         }
@@ -218,7 +130,7 @@ impl Site {
         }
     }
 
-    async fn process_file(self: Arc<Self>, entry: &Path) -> Result<(), BuildError> {
+    fn process_file(&mut self, entry: &Path) -> Result<(), BuildError> {
         if entry
             .extension()
             .unwrap_or_default()
@@ -226,18 +138,17 @@ impl Site {
             .unwrap_or_default()
             == "md"
         {
-            self.process_md(entry).await
+            self.process_md(entry)
         } else {
-            self.process_static(entry).await;
+            self.process_static(entry);
             Ok(())
         }
     }
 
-    async fn process_static(self: Arc<Self>, old_path: &Path) {
+    fn process_static(&mut self, old_path: &Path) {
         let new_path = self.new_path(old_path);
-        let mut data = self.assets.lock().await;
 
-        data.insert(
+        self.assets.insert(
             canonical(&new_path),
             AssetFile {
                 to: new_path,
@@ -246,7 +157,7 @@ impl Site {
         );
     }
 
-    async fn process_md(self: Arc<Self>, old_path: &Path) -> Result<(), BuildError> {
+    fn process_md(&mut self, old_path: &Path) -> Result<(), BuildError> {
         let mut new_path = self.new_path(old_path);
         new_path.set_extension("html");
         let page = Page::new(old_path, new_path.strip_prefix(&self.dest).unwrap());
@@ -256,8 +167,7 @@ impl Site {
         }
 
         if page.is_post() {
-            let mut feed = self.rss_feed.lock().await;
-            feed.item(new_item(&page));
+            self.rss_feed.item(new_item(&page));
         };
 
         let mut html_content = format_metadata(&page.metadata);
@@ -279,11 +189,9 @@ impl Site {
 
         let html = html_header + &html_navbar + &html_content + &html_footer;
 
-        self.clone().process_links(&html, &new_path).await;
+        self.process_links(&html, &new_path);
 
-        let mut data = self.pages.lock().await;
-
-        data.insert(
+        self.pages.insert(
             canonical(&new_path),
             GeneratedHtml {
                 to: new_path.to_owned(),
@@ -295,7 +203,7 @@ impl Site {
         Ok(())
     }
 
-    async fn process_links(self: Arc<Self>, source: &str, path: &Path) {
+    fn process_links(&mut self, source: &str, path: &Path) {
         let href = "href=";
 
         let mut source = source;
@@ -310,21 +218,10 @@ impl Site {
                 let link = &source[..end];
 
                 match link {
-                    external if link.contains("http") => {
-                        // TODO exclude common links
-                        if let Some(links) = &self.url_links {
-                            let links = links.lock().await;
-                            let _ = links
-                                .send(UrlLink(Link {
-                                    link: external.to_owned(),
-                                    file: path.to_path_buf(),
-                                }))
-                                .await;
-                        }
-                    }
+                    // TODO: Do we still need to external links?
+                    external if link.contains("http") => (),
                     internal => {
-                        let mut links = self.relative_links.lock().await;
-                        links.push(RelativeLink(Link {
+                        self.relative_links.push(RelativeLink(Link {
                             link: internal.to_owned(),
                             file: path.to_path_buf(),
                         }));
@@ -334,10 +231,7 @@ impl Site {
         }
     }
 
-    async fn heading_link_exists(self: &Self, link: &Link) -> Result<(), ()> {
-        let pages = self.pages.lock().await;
-        let assets = self.assets.lock().await;
-
+    fn heading_link_exists(self: &Self, link: &Link) -> Result<(), ()> {
         // TODO deal with full paths everywhere and only convert to relative when necessary?
         let (file_path, heading) = match link.link.split_once("#") {
             // Link is only path
@@ -345,7 +239,7 @@ impl Site {
             // Link is only heading (file is the current one)
             Some((file, heading)) if file.is_empty() => {
                 let path = canonical(Path::new(&link.file));
-                if let Some(page) = pages.get(&path) {
+                if let Some(page) = self.pages.get(&path) {
                     return match page.content.find(heading) {
                         None => Err(()),
                         Some(_) => Ok(()),
@@ -362,12 +256,12 @@ impl Site {
         let path_to_linkee = path_to_linker.join(file_path);
         let abs_path = canonical(&path_to_linkee);
 
-        if let Some(page) = pages.get(&abs_path) {
+        if let Some(page) = self.pages.get(&abs_path) {
             match page.content.find(heading) {
                 None => Err(()),
                 Some(_) => Ok(()),
             }
-        } else if let Some(_) = assets.get(&abs_path) {
+        } else if let Some(_) = self.assets.get(&abs_path) {
             // Can't have internal links to assets
             assert!(heading.is_empty());
             Ok(())
