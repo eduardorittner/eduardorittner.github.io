@@ -61,7 +61,10 @@ impl Site {
         let mut site = Site::new(dest, root, None);
 
         site.generate().unwrap();
-        let _ = site.validate_internal_links();
+        // Invalid links are only warnings for now
+        if let Err(e) = site.validate_internal_links() {
+            eprintln!("{:?}", e);
+        }
 
         site.commit_build()
     }
