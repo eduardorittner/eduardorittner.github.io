@@ -362,6 +362,7 @@ impl adapters::HeadingAdapter for Heading {
 pub fn to_html(page: &Page) -> String {
     let mut options = Options::default();
     options.extension.front_matter_delimiter = Some("+++".to_owned());
+    options.extension.footnotes = true;
 
     let heading_adapter = Heading;
     let syntax_adapter = plugins::syntect::SyntectAdapter::new(Some("base16-mocha.dark"));

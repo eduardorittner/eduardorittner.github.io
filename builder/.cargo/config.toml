@@ -1,6 +1,7 @@
-[build]
-rustflags = ["-Z", "threads=8"]
+# Disabled for now since I'm not sure it's a good idea to use nightly on CI
+#[build]
+#rustflags = ["-Z", "threads=8"]
 
-[target.x86_64-unknown-linux-gnu]
-rustflags = ["-Zcodegen-backend=cranelift"]
+#[target.x86_64-unknown-linux-gnu]
+#rustflags = ["-Zcodegen-backend=cranelift"]
 
