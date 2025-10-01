@@ -1,0 +1,29 @@
+@layer components {
+    pre {
+        font-family: var(--font-family);
+        font-size: 0.875em;
+        background-color: var(--background1);
+        color: var(--foreground0);
+        padding: 1rem;
+        border: 1px solid var(--box-border-color);
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    pre code {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        font-size: inherit;
+        color: inherit;
+    }
+
+    code {
+        font-family: var(--font-family);
+        font-size: 0.875em;
+        background-color: var(--background1);
+        color: var(--foreground0);
+        padding: 0.125rem 0.25rem;
+        border: 1px solid var(--box-border-color);
+    }
+}

@@ -41,10 +41,10 @@ pub fn format_toc(titles: Vec<&str>) -> String {
 pub fn format_header(title: &str, root: &str) -> String {
     format!(
         "<!doctype html>\
-    <html lang=\"en-US\">\
+    <html lang=\"en-US\" data-webtui-theme=\"catppuccin-mocha\">\
     <head> \
     <title>{}</title> \
-    <link href=\"{}style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"> \
+    <link href=\"{}webtui.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"> \
     <link href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'> \
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\"\
     href=\"https://eduardorittner.github.io/rss.xml\">\

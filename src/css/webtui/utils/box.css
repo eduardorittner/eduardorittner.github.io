@@ -1,0 +1,24 @@
+@layer utils {
+    .box {
+        border: 1px solid var(--box-border-color);
+        background-color: var(--background1);
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .box-header {
+        border-bottom: 1px solid var(--box-border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .box-footer {
+        border-top: 1px solid var(--box-border-color);
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .box-content {
+        padding: 0.5rem 0;
+    }
+}

@@ -1,0 +1,50 @@
+@layer components {
+    .input {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        font-family: var(--font-family);
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+        color: var(--foreground0);
+        background-color: var(--background0);
+        border: 1px solid var(--box-border-color);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input:focus {
+        outline: 0;
+        border-color: var(--foreground0);
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.25);
+    }
+
+    .input::placeholder {
+        color: var(--foreground2);
+        opacity: 1;
+    }
+
+    .input:disabled,
+    .input[readonly] {
+        background-color: var(--background1);
+        opacity: 1;
+    }
+
+    .input-group {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .input-group > .input {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        margin-bottom: 0;
+    }
+
+    .input-group > .input:focus {
+        z-index: 3;
+    }
+}
