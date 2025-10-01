@@ -4,6 +4,10 @@ date = 2025-10-26T10:48:46Z
 draft = true
 +++
 
+Libraries are great. Reusable code is great! Everybody knows that. There's nothing worst than having to program against a badly designed API where it's not clear what's the library's responsiblity and what's the caller's responsibility. ...
+
+Knowing how to use libraries effectively (and how to choose them) requires experience and the ability to recognize a good API from a bad API. This is an essential skill that's not really talked about that much, especially since so much of coding today involves some sort of framework, where the available choices are naturally fewer because frameworks have already made most of the choices for you.
+
 One of the great things about software is the idea of *composability*: that you can write code once and reuse it in many different contexts. It's not an exageration to say that basically every piece of software today relies on at least some libraries, even if they are just libc. There are many great libraries which have proved to be immensely useful... [TODO]
 
 # Why Rust is great
@@ -22,6 +26,8 @@ Another aspect about data structures in Rust specifically, is that in order for 
 - [Caches in Rust](https://matklad.github.io/2022/06/11/caches-in-rust.html)
 - [Learning Rust with entirely too many linked lists](https://rust-unofficial.github.io/too-many-lists/)
 - [Rust collections case study: BTreeMap](https://faultlore.com/blah/rust-btree-case/)
+- [Rustonomicon's Implementing Vec](https://doc.rust-lang.org/nomicon/vec/vec.html)
+- [Rust Atomics and Lock's Building Our Own Channels](https://marabos.nl/atomics/building-channels.html)
 
 # Wrapping up
 
