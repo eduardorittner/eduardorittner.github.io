@@ -1,5 +1,7 @@
 # A collection of small tecnical notes
 
+
+* [Expression parsing with SIMD](simd-expr-parsing.html)
 * [Rust's non zero integers](nonzerouint.html)
 * [Archiving all my links](archive.html)
 * [Faster Rust compile times](faster-rust-compile.html)
