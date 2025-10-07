@@ -1,5 +1,6 @@
 # Blog Posts
 
+* [Writing SIMD in Rust](rust-simd.html)
 * [Building Systems, Simply by Matklad](building-systems-simply.html)
 * [Boring tech as (less) theory building](boring-tech-as-theory-building.html)
 * [Building my own Static Site Generator in Rust](blog-todos.html)
